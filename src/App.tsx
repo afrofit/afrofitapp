@@ -1,7 +1,13 @@
-import * as React from 'react';
+import 'react-native-gesture-handler';
 
-import {WelcomeScreen} from './screens/landing/Welcome.Screen';
+import {NavigationContainer} from '@react-navigation/native';
+import * as React from 'react';
+import AuthNavigator from './navigator/AuthNavigator';
 
 export const App = () => {
-  return <WelcomeScreen />;
+  return (
+    <NavigationContainer>
+      <AuthNavigator />
+    </NavigationContainer>
+  );
 };
