@@ -1,4 +1,4 @@
-package com.afrofitapp;
+package com.afrofit.afrofit;
 
 import com.facebook.react.ReactActivity;
 

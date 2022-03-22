@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.afrofitapp">
+  package="com.afrofit.afrofit">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
