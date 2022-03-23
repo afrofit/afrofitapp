@@ -1,11 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {Button} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 
 import {AuthStackParamList} from '../../navigator/AuthNavigator';
 import {BaseFont} from '../../components/Font/BaseFont';
 import {Page} from '../../components/Page/Page';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {BaseButton} from '../../components/Buttons/BaseButton';
 
 type navigationType = StackNavigationProp<AuthStackParamList, 'Welcome'>;
 
@@ -22,6 +23,7 @@ export const WelcomeScreen: React.FC<Props> = () => {
         title="what a button"
         onPress={() => navigation.navigate('Login')}
       />
+      <BaseButton />
     </Page>
   );
 };
