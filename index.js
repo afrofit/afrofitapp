@@ -1,4 +1,9 @@
+/**
+ * @format
+ */
+
 import 'react-native-gesture-handler';
+import 'expo-asset';
 
 import {AppRegistry} from 'react-native';
 import {App} from './src/App';

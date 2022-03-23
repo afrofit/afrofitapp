@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {Button, StyleSheet, View} from 'react-native';
 
 import {AuthStackParamList} from '../../navigator/AuthNavigator';
@@ -14,6 +14,7 @@ interface Props {}
 
 export const WelcomeScreen: React.FC<Props> = () => {
   const navigation = useNavigation<navigationType>();
+
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
       <BaseFont variant="title">Welcome Screen</BaseFont>
