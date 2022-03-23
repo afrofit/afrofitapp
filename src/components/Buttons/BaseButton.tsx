@@ -15,14 +15,15 @@ export const SolidButton = styled.Pressable<StyledButtonProps>`
   height: 50px;
   margin-bottom: 10px;
   margin-top: 10px;
-  background-color: ${theme.COLORS.bronze};
+  background-color: ${props =>
+    props.color ? props.color : theme.COLORS.black};
   justify-content: center;
   align-items: center;
 `;
 
 export const ButtonText = styled.Text<StyledButtonProps>`
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 600;
   letter-spacing: 0.2px;
   color: ${props => (props.color ? props.color : theme.COLORS.black)};
 `;

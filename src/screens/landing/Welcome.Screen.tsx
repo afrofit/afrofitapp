@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Button} from 'react-native';
 
 import {AuthStackParamList} from '../../navigator/AuthNavigator';
 import {BaseFont} from '../../components/Font/BaseFont';
@@ -20,11 +19,8 @@ export const WelcomeScreen: React.FC<Props> = () => {
       <BaseFont variant="title">Welcome Screen</BaseFont>
       <BaseFont variant="small-caps">This is a good subheading</BaseFont>
       <BaseFont variant="paragraph">This is a paragraph</BaseFont>
-      <Button
-        title="what a button"
-        onPress={() => navigation.navigate('Login')}
-      />
-      <BaseButton onPress={() => console.log('Button Pressed')} />
+
+      <BaseButton onPress={() => navigation.navigate('Login')} />
     </Page>
   );
 };
