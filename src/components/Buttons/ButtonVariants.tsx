@@ -1,15 +1,17 @@
-import styled from 'styled-components/native';
+import {theme} from '../../theme/theme';
 
-interface Props {
-  color: string;
+interface IButtonProperties {
+  backgroundColor: string;
+  textColor: string;
 }
 
-export const SolidButton = styled.View`
-  overflow: hidden;
-  border-radius: 50px;
-  width: 300px;
-  height: 50px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  background-color: red;
-`;
+interface IButtonVariants {
+  [key: string]: IButtonProperties;
+}
+
+export const BUTTON_VARIANTS: IButtonVariants = {
+  white: {
+    backgroundColor: theme.COLORS.white,
+    textColor: theme.COLORS.black,
+  },
+};

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Button, StyleSheet, View} from 'react-native';
+import {Button} from 'react-native';
 
 import {AuthStackParamList} from '../../navigator/AuthNavigator';
 import {BaseFont} from '../../components/Font/BaseFont';
@@ -24,7 +24,7 @@ export const WelcomeScreen: React.FC<Props> = () => {
         title="what a button"
         onPress={() => navigation.navigate('Login')}
       />
-      <BaseButton />
+      <BaseButton onPress={() => console.log('Button Pressed')} />
     </Page>
   );
 };

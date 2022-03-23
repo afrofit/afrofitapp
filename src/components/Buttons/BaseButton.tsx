@@ -1,77 +1,44 @@
 import * as React from 'react';
 import styled from 'styled-components/native';
 
-// import {SolidButton} from './ButtonVariants';
-import {Tappable} from '../Library/Tappable';
 import {theme} from '../../theme/theme';
-import {StyleSheet, Text, View} from 'react-native';
-import {BaseFont} from '../Font/BaseFont';
+import {BUTTON_VARIANTS} from './ButtonVariants';
 
-// interface Props {
-//   children: React.ReactNode;
-//   color?: ButtonColorVariants;
-//   variant?: ButtonSizeVariants;
-//   width?: string;
-//   onPress: () => void;
-// }
+interface StyledButtonProps {
+  color: string;
+}
 
-// type ButtonSizeVariants = 'title' | 'small-caps' | 'paragraph';
+export const SolidButton = styled.Pressable<StyledButtonProps>`
+  overflow: hidden;
+  border-radius: 50px;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: ${theme.COLORS.bronze};
+  justify-content: center;
+  align-items: center;
+`;
 
-// type ButtonColorVariants =
-//   | 'primary'
-//   | 'secondary'
-//   | 'highlight'
-//   | 'error'
-//   | 'dead'
-//   | 'warning';
+export const ButtonText = styled.Text<StyledButtonProps>`
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: ${props => (props.color ? props.color : theme.COLORS.black)};
+`;
 
-// export const BaseButton: React.FC<Props> = ({
-//   children,
-//   color = theme.COLORS.white,
-//   variant = 'title',
-//   onPress,
-// }) => {
-//   return (
-//     <SolidButton>
-//       <BaseFont>{children}</BaseFont>
-//     </SolidButton>
-//     // <Tappable onPress={onPress}>
-//     //   {variant === 'title' && <SolidButton>{children}</SolidButton>}
-//     //   {variant === 'small-caps' && <SolidButton>{children}</SolidButton>}
-//     // </Tappable>
-//   );
-// };
+interface Props {
+  onPress: () => void;
+  variant?: string;
+}
 
-// export const SolidButton = styled.View`
-//   overflow: hidden;
-//   border-radius: 50px;
-//   width: 300px;
-//   height: 50px;
-//   margin-bottom: 10px;
-//   margin-top: 10px;
-//   background-color: 'red';
-// `;
+export const BaseButton: React.FC<Props> = ({variant = 'white', onPress}) => {
+  const textColor = BUTTON_VARIANTS[variant].textColor;
+  const buttonBackgroundColor = BUTTON_VARIANTS[variant].backgroundColor;
 
-// const Solids = styled.View`
-//   height: 100px;
-//   width: 100px;
-//   background-color: ${theme.COLORS.green};
-// `;
-
-export const BaseButton: React.FC = () => {
   return (
-    <View style={styles.button}>
-      <BaseFont>Something here</BaseFont>
-    </View>
+    <SolidButton color={buttonBackgroundColor} onPress={onPress}>
+      <ButtonText color={textColor}>Something here</ButtonText>
+    </SolidButton>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    height: 100,
-    width: 300,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
