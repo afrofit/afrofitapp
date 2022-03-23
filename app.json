@@ -1,4 +1,9 @@
 {
   "name": "afrofitapp",
-  "displayName": "Afrofit"
+  "displayName": "Afrofit",
+  "expo": {
+    "name": "Afrofit",
+    "slug": "afrofit",
+    "sdkVersion": "44.0.0"
+  }
 }
