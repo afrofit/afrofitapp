@@ -5,7 +5,7 @@
     <key>EXUpdatesSDKVersion</key>
     <string>44.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://exp.host/@afrofit/Afrofit</string>
+    <string>https://exp.host/@afrofit/afrofit</string>
     <key>EXUpdatesEnabled</key>
     <true/>
     <key>EXUpdatesCheckOnLaunch</key>

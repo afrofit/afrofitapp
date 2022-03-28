@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Purchases, {PurchasesOfferings} from 'react-native-purchases';
-
-import {AuthStackParamList} from '../../navigator/AuthNavigator';
-import {BaseFont} from '../../components/Font/BaseFont';
-import {Page} from '../../components/Page/Page';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {BaseButton} from '../../components/Buttons/BaseButton';
+
+import {AuthStackParamList} from '../../../navigator/AuthNavigator';
+import {BaseButton} from '../../../components/Buttons/BaseButton';
+import {Page} from '../../../components/Page/Page';
+import {BaseFont} from '../../../components/Font/BaseFont';
 
 type navigationType = StackNavigationProp<AuthStackParamList, 'Welcome'>;
 
 interface Props {}
 
-export const WelcomeScreen: React.FC<Props> = () => {
+export const HomeScreen: React.FC<Props> = () => {
   const navigation = useNavigation<navigationType>();
 
   const [offer, setOffer] = React.useState<any>(null);
@@ -35,7 +35,7 @@ export const WelcomeScreen: React.FC<Props> = () => {
 
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
-      <BaseFont variant="title">Welcome Screen</BaseFont>
+      <BaseFont variant="title">Home Screen</BaseFont>
       <BaseFont variant="small-caps">This is a good subheading</BaseFont>
       <BaseFont variant="paragraph">This is a paragraph</BaseFont>
 

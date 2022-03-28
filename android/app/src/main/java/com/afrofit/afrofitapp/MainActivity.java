@@ -1,4 +1,4 @@
-package com.afrofit.afrofit;
+package com.afrofit.afrofitapp;
 import expo.modules.ReactActivityDelegateWrapper;
 import com.facebook.react.ReactActivityDelegate;
 
