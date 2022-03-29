@@ -24,5 +24,17 @@ export const SolidButton = styled.Pressable<StyledButtonProps>`
   justify-content: center;
   align-items: center;
   align-self: center;
-  margin: 20px;
+`;
+
+export const Touchable = styled.Pressable`
+  margin: 10px;
+`;
+
+export const ClearButtonText = styled.Text<StyledButtonProps>`
+  color: ${props => props.color};
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px;
+  letter-spacing: 0.25px;
+  align-self: center;
 `;

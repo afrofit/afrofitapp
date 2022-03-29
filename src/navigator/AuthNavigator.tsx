@@ -4,10 +4,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {ROUTES} from '../constants/routes';
 import {LoginScreen} from '../screens/auth/Login/Login.Screen';
 import {WelcomeScreen} from '../screens/landing/Welcome.Screen';
+import {SignupScreen} from '../screens/auth/Signup/Signup.Screen';
 
 export type AuthStackParamList = {
   Welcome: undefined;
   Login: undefined;
+  Signup: undefined;
 };
 
 const {Screen, Navigator} = createStackNavigator<AuthStackParamList>();
@@ -15,6 +17,7 @@ const {Screen, Navigator} = createStackNavigator<AuthStackParamList>();
 const AuthNavigator = () => (
   <Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
     <Screen name={'Welcome'} component={WelcomeScreen} />
+    <Screen name={'Signup'} component={SignupScreen} />
     <Screen name={'Login'} component={LoginScreen} />
   </Navigator>
 );

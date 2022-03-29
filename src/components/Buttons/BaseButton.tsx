@@ -4,7 +4,7 @@ import {ButtonText, SolidButton} from './Button.styles';
 import {ButtonVariantType, BUTTON_VARIANTS} from './ButtonVariants';
 
 interface Props {
-  onPress: () => void;
+  onPress: (data?: any) => void;
   variant?: ButtonVariantType;
   text: string;
 }

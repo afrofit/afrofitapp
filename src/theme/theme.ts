@@ -14,4 +14,9 @@ export const theme = {
     gray_400: '#666666',
     gray_500: '#4f4f4f',
   },
+  BORDER_RADIUS: {
+    lg: '50px',
+    md: '20px',
+    sm: '10px',
+  },
 };
