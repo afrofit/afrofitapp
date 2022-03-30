@@ -5,8 +5,14 @@ import {LoaderContainer, LottieWrapper} from './AbsoluteLoader.styles';
 import {BaseFont} from '../../Font/BaseFont';
 import {theme} from '../../../theme/theme';
 import Spacer from '../../Library/Spacer';
+import {StyleSheet} from 'react-native';
 
-export const AbsoluteLoader = ({
+interface Props {
+  message?: string;
+  visible?: boolean;
+}
+
+export const AbsoluteLoader: React.FC<Props> = ({
   message = 'Loading Content',
   visible = true,
 }) => {
@@ -24,13 +30,21 @@ export const AbsoluteLoader = ({
           ref={animation => (animationRef = animation)}
           autoPlay
           loop={true}
-          source={require('../assets/animations/music_loader.json')}
+          source={require('../../../assets/animations/music_loader.json')}
+          style={styles.animation}
         />
       </LoaderContainer>
       <Spacer />
-      <BaseFont variant="paragraph" color={theme.COLORS.white}>
-        {message}
+      <BaseFont variant="small-caps" color={theme.COLORS.white}>
+        {message} . . .
       </BaseFont>
     </LottieWrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  animation: {
+    width: 80,
+    marginBottom: 10,
+  },
+});

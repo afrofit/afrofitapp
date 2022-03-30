@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {theme} from '../../../theme/theme';
 
-const BOX_SIZE = '60px';
+const BOX_SIZE = '90px';
 
 export const LottieWrapper = styled.View`
   height: 100%;
