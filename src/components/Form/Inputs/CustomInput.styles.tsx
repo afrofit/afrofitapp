@@ -11,10 +11,10 @@ export const Field = styled.View<Props>`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  border-width: 2px;
+  border-width: 1px;
   margin-bottom: 15px;
   border-color: ${props =>
-    props.error ? theme.COLORS.red : theme.COLORS.dark};
+    props.error ? theme.COLORS.red : theme.COLORS.gray_400};
   border-radius: ${theme.BORDER_RADIUS.md};
   background-color: rgba(0, 0, 0, 0.3);
 `;

@@ -31,5 +31,3 @@ export const ClearButton: React.FC<Props> = ({
     </Touchable>
   );
 };
-
-export default ClearButton;

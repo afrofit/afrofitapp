@@ -5,13 +5,14 @@ import {
   ModalTitle,
   Paragraph,
   SmallCaps,
+  SmallParagraph,
   Tagline,
   Title,
 } from './FontVariants';
 
 interface Props {
-  children: React.ReactNode;
-  color?: FontColorVariants;
+  // children: React.ReactNode;
+  color?: string;
   variant?: FontSizeVariants;
   width?: string;
   bold?: boolean;
@@ -23,6 +24,7 @@ type FontSizeVariants =
   | 'modal-title'
   | 'small-caps'
   | 'paragraph'
+  | 'small-paragraph'
   | 'tagline';
 
 type FontColorVariants =
@@ -52,6 +54,8 @@ export const BaseFont: React.FC<Props> = ({
     );
   if (variant === 'small-caps')
     return <SmallCaps color={color}>{children}</SmallCaps>;
+  if (variant === 'small-paragraph')
+    return <SmallParagraph color={color}>{children}</SmallParagraph>;
 
   return <Paragraph color={color}>{children}</Paragraph>;
 };

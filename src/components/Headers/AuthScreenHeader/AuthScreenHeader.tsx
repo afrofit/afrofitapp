@@ -12,7 +12,9 @@ interface Props {
   title: string;
 }
 
-const AuthScreensHeader: React.FC<Props> = ({title = 'Screen Title'}) => {
+export const AuthScreensHeader: React.FC<Props> = ({
+  title = 'Screen Title',
+}) => {
   return (
     <AuthHeaderContainer>
       <BaseFont variant="header-title">{title}</BaseFont>
@@ -21,5 +23,3 @@ const AuthScreensHeader: React.FC<Props> = ({title = 'Screen Title'}) => {
     </AuthHeaderContainer>
   );
 };
-
-export default AuthScreensHeader;

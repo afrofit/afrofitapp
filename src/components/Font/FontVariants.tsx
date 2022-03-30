@@ -7,7 +7,7 @@ interface Props {
 
 export const SmallCaps = styled.Text<Props>`
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: ${props => (props.color ? props.color : 'white')};
@@ -36,6 +36,14 @@ export const Paragraph = styled.Text<Props>`
   font-size: 20px;
   font-weight: normal;
   letter-spacing: 0.5px;
+  text-align: center;
+  color: ${props => (props.color ? props.color : 'white')};
+`;
+
+export const SmallParagraph = styled.Text<Props>`
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0.2px;
   color: ${props => (props.color ? props.color : 'white')};
 `;
 
