@@ -6,8 +6,10 @@ import Purchases from 'react-native-purchases';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigator from './navigator/AuthNavigator';
 import {Platform} from 'react-native';
+import {Provider} from 'react-redux';
 
 import {IOS_REVCAT_KEY, ANDROID_REVCAT_KEY} from 'react-native-dotenv';
+import STORE from './store/store';
 
 export const App = () => {
   React.useEffect(() => {
@@ -21,8 +23,10 @@ export const App = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+    <Provider store={STORE}>
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 };

@@ -4,7 +4,7 @@ import {FieldValues, SubmitHandler, useForm} from 'react-hook-form';
 import {Keyboard} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {AuthScreensHeader} from '../../../components/Headers/AuthScreenHeader/AuthScreenHeader';
 import {AuthStackParamList} from '../../../navigator/AuthNavigator';
@@ -14,16 +14,29 @@ import {ConfirmModal} from '../../../components/Modal/ConfirmModal/ConfirmModal'
 import {CustomInput} from '../../../components/Form/Inputs/CustomInput';
 import {EMAIL_REGEX} from '../../../constants/regex';
 import {PageImaged} from '../../../components/Page/PageImaged';
+import {createAccountThunk} from '../../../features/auth/create-account-thunk';
+import {getSignupSuccess} from '../../../features/auth/user.slice';
 
-type navigationType = StackNavigationProp<AuthStackParamList, 'Login'>;
+type navigationType = StackNavigationProp<
+  AuthStackParamList,
+  'Login' | 'SignupSuccess'
+>;
 interface Props {}
 
 export const SignupScreen: React.FC<Props> = ({}) => {
   const navigation = useNavigation<navigationType>();
   const dispatch = useDispatch();
 
+  const signupStatus = useSelector(getSignupSuccess);
+
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [formData, setFormData] = React.useState<FieldValues | null>(null);
+
+  React.useEffect(() => {
+    if (signupStatus) {
+      navigation.navigate('SignupSuccess');
+    }
+  }, [signupStatus]);
 
   const {
     control,
@@ -41,12 +54,9 @@ export const SignupScreen: React.FC<Props> = ({}) => {
     if (formData) {
       console.log('Form submitted');
       Keyboard.dismiss();
-      const {email, password, username} = formData;
-      dispatch(createAccount(email, password, username));
+      dispatch(createAccountThunk(formData));
       setShowModal(false);
     }
-    //make async api call
-    // then hide modal
   };
 
   return (

@@ -4,7 +4,6 @@ import {Tappable} from '../Library/Tappable';
 import {PageContainer, PageSafeAreaView, PageWrapper} from './Page.styles';
 
 interface Props {
-  children: React.ReactNode;
   padding?: number;
   disabled?: boolean;
   onPress?: () => void;

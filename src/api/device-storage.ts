@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import jwtDecode from 'jwt-decode';
+import {User} from '../models/User';
 
 const KEY = 'AUTH_KEY';
 const RESET_KEY = 'AUTH_RESET_KEY';
@@ -23,7 +24,7 @@ const GET_TOKEN = async () => {
 const GET_STORED_USER = async () => {
   const token = await GET_TOKEN();
   if (token) {
-    const user = jwtDecode(token);
+    const user: User = jwtDecode(token);
     return user;
   }
   return null;
