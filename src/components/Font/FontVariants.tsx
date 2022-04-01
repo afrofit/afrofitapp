@@ -6,8 +6,8 @@ interface Props {
 }
 
 export const SmallCaps = styled.Text<Props>`
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-align: center;

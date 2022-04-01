@@ -24,6 +24,7 @@ import useAsyncEffect from 'use-async-effect';
 import VerifyUserNavigator from './navigator/VerifyUserNavigator';
 import {AbsoluteErrorMessage} from './components/ErrorMessage/AbsoluteErrorMessage/AbsoluteErrorMessage';
 import {logoutUserThunk} from './features/auth/logout-user-thunk';
+import GameNavigator from './navigator/GameNavigator';
 
 export const Index = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ export const Index = () => {
     }
   }, [dispatch]);
 
-  dispatch(logoutUserThunk());
+  // dispatch(logoutUserThunk());
 
   return (
     <>
@@ -63,6 +64,8 @@ export const Index = () => {
       currentUserFromStore.isRegistered &&
       !currentUserFromStore.isVerified ? (
         <VerifyUserNavigator />
+      ) : currentUserFromStore && currentUserFromStore.isVerified ? (
+        <GameNavigator />
       ) : (
         <AuthNavigator />
       )}

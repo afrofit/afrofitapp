@@ -31,14 +31,14 @@ export function createAccountThunk(formData: FieldValues): AppThunk {
         if (data && ok) {
           DEVICE_STORAGE.STORE_TOKEN(data).then(() => {
             dispatch(setCurrentUserToken(data));
-            return dispatch(setSignupSuccess(true));
+            dispatch(setSignupSuccess(true));
+            return;
           });
         } else if (!ok && data) {
-          showGenericErrorDialog('An internal error occured!');
+          console.log('ErrorData', data);
+          return showGenericErrorDialog('An internal error occured!');
         } else {
-          dispatch(
-            showGenericErrorDialog('There is a problem with you code. Retry?'),
-          );
+          dispatch(showGenericErrorDialog("Can't create account. Retry?"));
           throw new Error('Cannot create account');
         }
       })

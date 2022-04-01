@@ -10,6 +10,7 @@ export interface UserState {
   signupSuccess: boolean;
   verifySuccess: boolean;
   loginSuccess: boolean;
+  resendVerifyCodeSuccess: boolean;
   changePasswordSuccess: boolean;
   confirmPasswordResetCodeSuccess: boolean;
   resendPasswordResetCodeSuccess: boolean;
@@ -24,6 +25,7 @@ const initialState: UserState = {
   signupSuccess: false,
   verifySuccess: false,
   loginSuccess: false,
+  resendVerifyCodeSuccess: false,
   changePasswordSuccess: false,
   confirmPasswordResetCodeSuccess: false,
   resendPasswordResetCodeSuccess: false,
@@ -58,6 +60,9 @@ const userSlice = createSlice({
     setLoginSuccess(state, action: PayloadAction<boolean>) {
       state.signupSuccess = action.payload;
     },
+    setResendVerifyCodeSuccess(state, action: PayloadAction<boolean>) {
+      state.resendVerifyCodeSuccess = action.payload;
+    },
     setChangePasswordSuccess(state, action: PayloadAction<boolean>) {
       state.signupSuccess = action.payload;
     },
@@ -89,6 +94,7 @@ export const {
   setResendPasswordResetCodeSuccess,
   setChangeUsernameSuccess,
   setEmailResetSuccess,
+  setResendVerifyCodeSuccess,
 } = userSlice.actions;
 
 export const getCurrentUser = (state: RootState) => state.user.currentUser;
@@ -102,6 +108,8 @@ export const getCurrentUserResetToken = (state: RootState) =>
 export const getSignupSuccess = (state: RootState) => state.user.signupSuccess;
 export const getVerifySuccess = (state: RootState) => state.user.verifySuccess;
 export const getLoginSuccess = (state: RootState) => state.user.loginSuccess;
+export const getResendVerifyCodeSuccess = (state: RootState) =>
+  state.user.resendVerifyCodeSuccess;
 export const getChangePasswordSuccess = (state: RootState) =>
   state.user.changePasswordSuccess;
 export const getConfirmPasswordResetCodeSuccess = (state: RootState) =>

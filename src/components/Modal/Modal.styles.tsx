@@ -12,7 +12,7 @@ export const BackgroundOverlay = styled.View`
   left: 0;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.9);
   z-index: 120;
 `;
 

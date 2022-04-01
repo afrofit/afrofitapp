@@ -3,12 +3,12 @@ import {useNavigation} from '@react-navigation/native';
 import Purchases, {PurchasesOfferings} from 'react-native-purchases';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {AuthStackParamList} from '../../../navigator/AuthNavigator';
 import {BaseButton} from '../../../components/Buttons/BaseButton';
 import {Page} from '../../../components/Page/Page';
 import {BaseFont} from '../../../components/Font/BaseFont';
+import {GameStackParamList} from '../../../navigator/GameNavigator';
 
-type navigationType = StackNavigationProp<AuthStackParamList, 'Welcome'>;
+type navigationType = StackNavigationProp<GameStackParamList, 'Home'>;
 
 interface Props {}
 
@@ -40,7 +40,8 @@ export const HomeScreen: React.FC<Props> = () => {
       <BaseFont variant="paragraph">This is a paragraph</BaseFont>
 
       <BaseButton
-        onPress={() => navigation.navigate('Login')}
+        // onPress={() => navigation.navigate('Login')}
+        onPress={() => {}}
         text="Continue"
         variant="red"
       />
