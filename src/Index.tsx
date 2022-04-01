@@ -10,7 +10,10 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {IOS_REVCAT_KEY, ANDROID_REVCAT_KEY} from 'react-native-dotenv';
 import {AbsoluteLoader} from './components/Loaders/AbsoluteLoader/AbsoluteLoader';
-import {selectUiIsLoading} from './features/ui/ui.slice';
+import {
+  selectShowGenericErrorDialog,
+  selectUiIsLoading,
+} from './features/ui/ui.slice';
 import {
   getCurrentUser,
   setCurrentUser,
@@ -19,12 +22,15 @@ import {
 import {restoreCurrentUserFromStorage} from './utils/restore-user';
 import useAsyncEffect from 'use-async-effect';
 import VerifyUserNavigator from './navigator/VerifyUserNavigator';
+import {AbsoluteErrorMessage} from './components/ErrorMessage/AbsoluteErrorMessage/AbsoluteErrorMessage';
+import {logoutUserThunk} from './features/auth/logout-user-thunk';
 
 export const Index = () => {
   const dispatch = useDispatch();
 
   /**Selectors */
   const isLoading = useSelector(selectUiIsLoading);
+  const isError = useSelector(selectShowGenericErrorDialog);
   const currentUserFromStore = useSelector(getCurrentUser);
 
   React.useEffect(() => {
@@ -47,8 +53,11 @@ export const Index = () => {
     }
   }, [dispatch]);
 
+  dispatch(logoutUserThunk());
+
   return (
     <>
+      <AbsoluteErrorMessage error={isError} />
       <AbsoluteLoader visible={isLoading} />
       {currentUserFromStore &&
       currentUserFromStore.isRegistered &&

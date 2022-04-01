@@ -15,9 +15,14 @@ export const CustomInput: React.FC<ICustomImputProps> = ({
   mode = 'regular',
   control,
   rules = {},
+  maxLength = 50,
 }) => {
   const keyboardType: KeyboardTypes =
-    mode === 'email' ? 'email-address' : 'default';
+    mode === 'email'
+      ? 'email-address'
+      : mode === 'numeric'
+      ? 'numeric'
+      : 'default';
 
   const renderErrorMessage = (error: FieldError) => {
     console.log(error);
@@ -49,6 +54,7 @@ export const CustomInput: React.FC<ICustomImputProps> = ({
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
+            maxLength={maxLength}
           />
         </Field>
       )}

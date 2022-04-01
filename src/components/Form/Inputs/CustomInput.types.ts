@@ -5,6 +5,7 @@ export interface ICustomImputProps {
   mode?: 'password' | 'regular' | 'numeric' | 'email';
   control: any;
   rules: any;
+  maxLength?: number;
 }
 
 export interface ErrorType {
@@ -19,4 +20,4 @@ export type IFormInput = {
   password: string;
 };
 
-export type KeyboardTypes = 'email-address' | 'default';
+export type KeyboardTypes = 'email-address' | 'default' | 'numeric';

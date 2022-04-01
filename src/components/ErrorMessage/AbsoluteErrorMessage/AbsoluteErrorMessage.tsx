@@ -11,8 +11,8 @@ interface Props {
 export const AbsoluteErrorMessage: React.FC<Props> = ({error}) => {
   return !error ? null : (
     <ErrorMessageContainer>
-      <BaseFont color={theme.COLORS.white} variant="small-paragraph">
-        {error}
+      <BaseFont color={theme.COLORS.white} variant="small-bold-paragraph">
+        Error! {error}!
       </BaseFont>
     </ErrorMessageContainer>
   );

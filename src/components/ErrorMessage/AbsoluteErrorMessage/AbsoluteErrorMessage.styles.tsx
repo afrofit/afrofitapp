@@ -7,7 +7,9 @@ export const ErrorMessageContainer = styled.View`
   margin-top: 5px;
   margin-bottom: 5px;
   position: absolute;
-  width: 100%;
+  width: 90%;
   top: 4%;
   z-index: 10;
+  align-self: center;
+  border-radius: ${theme.BORDER_RADIUS.sm};
 `;

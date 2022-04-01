@@ -62,6 +62,14 @@ export const SmallParagraph = styled.Text<Props>`
   color: ${props => (props.color ? props.color : 'white')};
 `;
 
+export const SmallBoldParagraph = styled.Text<Props>`
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+  text-align: center;
+  color: ${props => (props.color ? props.color : 'white')};
+`;
+
 export const Tagline = styled.Text<Props>`
   color: ${props => (props.color ? props.color : 'white')};
   font-size: 25px;

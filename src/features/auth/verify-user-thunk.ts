@@ -7,21 +7,21 @@ import {
   finishedRequest,
   showGenericErrorDialog,
 } from '../ui/ui.slice';
-import {setCurrentUserToken, setSignupSuccess} from './user.slice';
+import {setCurrentUserToken, setVerifySuccess} from './user.slice';
 import DEVICE_STORAGE from '../../api/device-storage';
 import {ApiResponse} from 'apisauce';
 
-const createAccount = async (formData: FieldValues) => {
+const verifyUser = async (formData: FieldValues) => {
   console.log('Form Data', formData);
-  const {email, password, username} = formData;
-  return API_CLIENT.post('/users/create-account', {email, password, username});
+  const {code} = formData;
+  return API_CLIENT.put('/users/verify-signup-code', {code: +code});
 };
 
-export function createAccountThunk(formData: FieldValues): AppThunk {
+export function verifyUserThunk(formData: FieldValues): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
-    createAccount(formData)
+    verifyUser(formData)
       .then(response => {
         dispatch(finishedRequest());
         return response;
@@ -31,7 +31,7 @@ export function createAccountThunk(formData: FieldValues): AppThunk {
         if (data && ok) {
           DEVICE_STORAGE.STORE_TOKEN(data).then(() => {
             dispatch(setCurrentUserToken(data));
-            return dispatch(setSignupSuccess(true));
+            return dispatch(setVerifySuccess(true));
           });
         } else if (!ok && data) {
           showGenericErrorDialog('An internal error occured!');

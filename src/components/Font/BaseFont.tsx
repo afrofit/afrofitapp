@@ -5,6 +5,7 @@ import {
   HeaderTitle,
   ModalTitle,
   Paragraph,
+  SmallBoldParagraph,
   SmallCaps,
   SmallParagraph,
   SmallTagline,
@@ -27,6 +28,7 @@ type FontSizeVariants =
   | 'small-caps'
   | 'paragraph'
   | 'small-paragraph'
+  | 'small-bold-paragraph'
   | 'tagline'
   | 'bold-paragraph'
   | 'small-tagline';
@@ -68,6 +70,8 @@ export const BaseFont: React.FC<Props> = ({
     return <SmallParagraph color={color}>{children}</SmallParagraph>;
   if (variant === 'bold-paragraph')
     return <BoldParagraph color={color}>{children}</BoldParagraph>;
+  if (variant === 'small-bold-paragraph')
+    return <SmallBoldParagraph color={color}>{children}</SmallBoldParagraph>;
 
   return <Paragraph color={color}>{children}</Paragraph>;
 };

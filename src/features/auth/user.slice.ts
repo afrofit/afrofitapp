@@ -46,6 +46,8 @@ const userSlice = createSlice({
     },
     unsetCurrentUser(state) {
       state.currentUser = null;
+      state.currentUserResetToken = null;
+      state.currentUserToken = null;
     },
     setSignupSuccess(state, action: PayloadAction<boolean>) {
       state.signupSuccess = action.payload;
@@ -80,6 +82,13 @@ export const {
   setCurrentUserResetToken,
   unsetCurrentUser,
   setSignupSuccess,
+  setVerifySuccess,
+  setLoginSuccess,
+  setChangePasswordSuccess,
+  setConfirmPasswordResetCodeSuccess,
+  setResendPasswordResetCodeSuccess,
+  setChangeUsernameSuccess,
+  setEmailResetSuccess,
 } = userSlice.actions;
 
 export const getCurrentUser = (state: RootState) => state.user.currentUser;
