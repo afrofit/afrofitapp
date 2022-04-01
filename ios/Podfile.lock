@@ -24,6 +24,8 @@ PODS:
     - ReactCommon/turbomodule/core
   - EXSecureStore (11.1.1):
     - ExpoModulesCore
+  - EXSensors (11.1.1):
+    - ExpoModulesCore
   - EXStructuredHeaders (2.1.1)
   - EXUpdates (0.11.6):
     - EXManifests
@@ -412,6 +414,7 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
+  - EXSensors (from `../node_modules/expo-sensors/ios`)
   - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
   - EXUpdates (from `../node_modules/expo-updates/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
@@ -523,6 +526,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
+  EXSensors:
+    :path: "../node_modules/expo-sensors/ios"
   EXStructuredHeaders:
     :path: "../node_modules/expo-structured-headers/ios"
   EXUpdates:
@@ -617,6 +622,7 @@ SPEC CHECKSUMS:
   Expo: 534e51e607aba8229293297da5585f4b26f50fa1
   ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
+  EXSensors: 67a98cf6297d3d5996dc9f08613e4058675ce99d
   EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
   EXUpdates: bd5fa64f02685ed3e96be86b5ca350cdc2cd8d02
   EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e

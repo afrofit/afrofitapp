@@ -7,21 +7,21 @@ import {
   finishedRequest,
   showGenericErrorDialog,
 } from '../ui/ui.slice';
-import {setCurrentUserToken, setSignupSuccess} from './user.slice';
+import {setCurrentUserToken, setVerifySuccess} from './user.slice';
 import DEVICE_STORAGE from '../../api/device-storage';
 import {ApiResponse} from 'apisauce';
 
-const createAccount = async (formData: FieldValues) => {
-  console.log('Form Data', formData);
-  const {email, password, username} = formData;
-  return API_CLIENT.post('/users/create-account', {email, password, username});
+const verifyUser = async (formData: FieldValues) => {
+  const {code} = formData;
+  return API_CLIENT.put('/users/verify-signup-code', {code: +code});
 };
 
-export function createAccountThunk(formData: FieldValues): AppThunk {
+export function verifyUserThunk(formData: FieldValues): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
-    createAccount(formData)
+    dispatch(setVerifySuccess(false));
+    verifyUser(formData)
       .then(response => {
         dispatch(finishedRequest());
         return response;
@@ -30,16 +30,15 @@ export function createAccountThunk(formData: FieldValues): AppThunk {
         const {data, ok} = response;
         if (data && ok) {
           DEVICE_STORAGE.STORE_TOKEN(data).then(() => {
-            dispatch(setCurrentUserToken(data));
-            dispatch(setSignupSuccess(true));
+            // dispatch(setCurrentUserToken(data));
+            dispatch(setVerifySuccess(true));
             return;
           });
         } else if (!ok && data) {
-          console.log('ErrorData', data);
           return showGenericErrorDialog('An internal error occured!');
         } else {
-          dispatch(showGenericErrorDialog("Can't create account. Retry?"));
-          throw new Error('Cannot create account');
+          dispatch(showGenericErrorDialog('Invalid code. Retry?'));
+          throw new Error('Cannot verify code.');
         }
       })
       .catch(error => {

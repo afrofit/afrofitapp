@@ -1,11 +1,14 @@
 import * as React from 'react';
 import {theme} from '../../theme/theme';
 import {
+  BoldParagraph,
   HeaderTitle,
   ModalTitle,
   Paragraph,
+  SmallBoldParagraph,
   SmallCaps,
   SmallParagraph,
+  SmallTagline,
   Tagline,
   Title,
 } from './FontVariants';
@@ -25,7 +28,10 @@ type FontSizeVariants =
   | 'small-caps'
   | 'paragraph'
   | 'small-paragraph'
-  | 'tagline';
+  | 'small-bold-paragraph'
+  | 'tagline'
+  | 'bold-paragraph'
+  | 'small-tagline';
 
 type FontColorVariants =
   | 'primary'
@@ -52,10 +58,20 @@ export const BaseFont: React.FC<Props> = ({
         {children}
       </Tagline>
     );
+  if (variant === 'small-tagline')
+    return (
+      <SmallTagline bold={bold} color={color}>
+        {children}
+      </SmallTagline>
+    );
   if (variant === 'small-caps')
     return <SmallCaps color={color}>{children}</SmallCaps>;
   if (variant === 'small-paragraph')
     return <SmallParagraph color={color}>{children}</SmallParagraph>;
+  if (variant === 'bold-paragraph')
+    return <BoldParagraph color={color}>{children}</BoldParagraph>;
+  if (variant === 'small-bold-paragraph')
+    return <SmallBoldParagraph color={color}>{children}</SmallBoldParagraph>;
 
   return <Paragraph color={color}>{children}</Paragraph>;
 };

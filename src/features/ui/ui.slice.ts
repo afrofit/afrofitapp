@@ -4,12 +4,12 @@ import {RootState} from '../../store/store';
 
 export interface UIState {
   requestsLoading: number;
-  showGenericErrorDialog: boolean;
+  showGenericErrorDialog: string;
 }
 
 const initialState = {
   requestsLoading: 0,
-  showGenericErrorDialog: false,
+  showGenericErrorDialog: '',
 };
 
 const uiSlice = createSlice({
@@ -22,11 +22,11 @@ const uiSlice = createSlice({
     finishedRequest(state) {
       state.requestsLoading = state.requestsLoading - 1;
     },
-    showGenericErrorDialog(state, action: PayloadAction<boolean>) {
+    showGenericErrorDialog(state, action: PayloadAction<string>) {
       state.showGenericErrorDialog = action.payload;
     },
     hideGenericErrorDialog(state) {
-      state.showGenericErrorDialog = false;
+      state.showGenericErrorDialog = '';
     },
   },
 });
