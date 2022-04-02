@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+
 export const theme = {
   COLORS: {
     white: '#F3F0F9',
@@ -18,5 +20,13 @@ export const theme = {
     lg: '50px',
     md: '20px',
     sm: '10px',
+  },
+  MARGIN: {
+    sm: '10px',
+    lg: '20px',
+  },
+  DEVICE_DIMENSIONS: {
+    width: `${Dimensions.get('window').width}px`,
+    height: `${Dimensions.get('window').height}px`,
   },
 };

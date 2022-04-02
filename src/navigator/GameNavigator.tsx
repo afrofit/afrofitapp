@@ -5,6 +5,8 @@ import {AntDesign} from '@expo/vector-icons';
 import {HomeScreen} from '../screens/game/Home/Home.Screen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {theme} from '../theme/theme';
+import {MarathonScreen} from '../screens/game/Marathon/Marathon.Screen';
+import {ProfileScreen} from '../screens/game/Profile/Profile.Screen';
 
 export type GameStackParamList = {
   GameRoot: undefined;
@@ -50,7 +52,7 @@ const GameNavigatorTabs = () => (
     />
     <TabScreen
       name={'Marathon'}
-      component={HomeScreen}
+      component={MarathonScreen}
       options={{
         tabBarIcon: ({color, size}) => (
           <AntDesign name="Trophy" color={color} size={ICON_SIZE} />
@@ -59,7 +61,7 @@ const GameNavigatorTabs = () => (
     />
     <TabScreen
       name={'Profile'}
-      component={HomeScreen}
+      component={ProfileScreen}
       options={{
         tabBarIcon: ({color, size}) => (
           <AntDesign name="user" color={color} size={ICON_SIZE} />

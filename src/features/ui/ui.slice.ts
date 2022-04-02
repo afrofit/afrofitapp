@@ -7,7 +7,7 @@ export interface UIState {
   showGenericErrorDialog: string;
 }
 
-const initialState = {
+const initialState: UIState = {
   requestsLoading: 0,
   showGenericErrorDialog: '',
 };

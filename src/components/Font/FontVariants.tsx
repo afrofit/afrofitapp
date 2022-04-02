@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {theme} from '../../theme/theme';
 
 interface Props {
   color: string;
@@ -10,6 +11,15 @@ export const SmallCaps = styled.Text<Props>`
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 3px;
+  text-align: center;
+  color: ${props => (props.color ? props.color : 'white')};
+`;
+
+export const BigCaps = styled.Text<Props>`
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
   text-align: center;
   color: ${props => (props.color ? props.color : 'white')};
 `;
@@ -86,4 +96,12 @@ export const SmallTagline = styled.Text<Props>`
   text-transform: uppercase;
   text-align: center;
   font-weight: ${props => (props.bold ? 700 : 500)};
+`;
+
+export const IdText = styled.Text<Props>`
+  color: ${theme.COLORS.gray_400};
+  font-size: 13px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 500;
 `;

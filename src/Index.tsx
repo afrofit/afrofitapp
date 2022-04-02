@@ -72,11 +72,3 @@ export const Index = () => {
     </>
   );
 };
-
-// {currentUserFromStore && currentUserFromStore.isVerified && (
-//   <AppNavigator />
-// )}
-// {currentUserFromStore &&
-//   currentUserFromStore.isRegistered &&
-//   !currentUserFromStore.isVerified && <VerifyEmailNavigator />}
-// {!currentUserFromStore && <AuthNavigator />}

@@ -1,50 +1,49 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import Purchases, {PurchasesOfferings} from 'react-native-purchases';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {BaseButton} from '../../../components/Buttons/BaseButton';
 import {Page} from '../../../components/Page/Page';
-import {BaseFont} from '../../../components/Font/BaseFont';
-import {GameStackParamList} from '../../../navigator/GameNavigator';
+import {
+  GameScreensStackParamList,
+  GameStackParamList,
+} from '../../../navigator/GameNavigator';
+import PageHeaderSmall from '../../../components/Headers/PageHeaderSmall/PageHeaderSmall';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCurrentUser} from '../../../features/auth/user.slice';
+import {fetchAllStories} from '../../../features/game/thunks/fetch-all-stories-thunk';
+import {getAllStories} from '../../../features/game/slices/content.slice';
+import StoryList from '../../../features/game/components/StoryList/StoryList';
+import {getSubscriptionOfferings} from '../../../features/subscription/thunks/get-subscription-offers-thunk';
 
-type navigationType = StackNavigationProp<GameStackParamList, 'Home'>;
+type navigationType = StackNavigationProp<
+  GameStackParamList & GameScreensStackParamList,
+  'Home'
+>;
 
 interface Props {}
 
 export const HomeScreen: React.FC<Props> = () => {
   const navigation = useNavigation<navigationType>();
 
-  const [offer, setOffer] = React.useState<any>(null);
+  const dispatch = useDispatch();
 
-  const fetchSubscriptionOfferings = async () => {
-    try {
-      const offerings = await Purchases.getOfferings();
-      if (offerings.current !== null) {
-      }
-      console.log('Offerings', offerings);
-      setOffer(offerings.current);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const currentUser = useSelector(getCurrentUser);
+  const stories = useSelector(getAllStories);
 
   React.useEffect(() => {
-    fetchSubscriptionOfferings();
+    dispatch(getSubscriptionOfferings());
+    dispatch(fetchAllStories());
   }, []);
 
+  const checkSubscriptionStatus = () => {
+    console.log('Clicked!');
+  };
+
+  // onPress={() => navigation.navigate('Login')}
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
-      <BaseFont variant="title">Home Screen</BaseFont>
-      <BaseFont variant="small-caps">This is a good subheading</BaseFont>
-      <BaseFont variant="paragraph">This is a paragraph</BaseFont>
-
-      <BaseButton
-        // onPress={() => navigation.navigate('Login')}
-        onPress={() => {}}
-        text="Continue"
-        variant="red"
-      />
+      <PageHeaderSmall user={currentUser} />
+      <StoryList stories={stories} triggerNavigate={checkSubscriptionStatus} />
     </Page>
   );
 };

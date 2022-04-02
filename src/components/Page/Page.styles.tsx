@@ -22,6 +22,6 @@ export const PageSafeAreaView = styled.SafeAreaView<Props>`
 
 export const PageWrapper = styled.View`
   height: 100%;
-  width: 100%;
+  width: ${theme.DEVICE_DIMENSIONS.width};
   flex: 1;
 `;
