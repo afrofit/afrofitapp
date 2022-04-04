@@ -45,7 +45,12 @@ export const HomeScreen: React.FC<Props> = () => {
     <Page onPress={() => console.log('Tappable Screen!')}>
       <PageHeaderSmall user={currentUser} />
       <HomeStatsCard calBurned={100} bodyMovements={606} />
-      <StoryList stories={stories} triggerNavigate={checkSubscriptionStatus} />
+      {stories && (
+        <StoryList
+          stories={stories}
+          triggerNavigate={checkSubscriptionStatus}
+        />
+      )}
     </Page>
   );
 };

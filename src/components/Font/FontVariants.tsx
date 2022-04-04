@@ -16,7 +16,7 @@ export const SmallCaps = styled.Text<Props>`
 `;
 
 export const NumberLarge = styled.Text<Props>`
-  font-size: 35px;
+  font-size: 45px;
   font-weight: 200;
   text-transform: lowercase;
   letter-spacing: 1px;
@@ -26,7 +26,7 @@ export const NumberLarge = styled.Text<Props>`
 `;
 
 export const NumberSmall = styled.Text<Props>`
-  font-size: 12px;
+  font-size: 30px;
   font-weight: 600;
   text-transform: lowercase;
   letter-spacing: 1px;
@@ -40,8 +40,8 @@ export const LabelText = styled.Text<Props>`
   font-weight: 600;
   text-transform: lowercase;
   letter-spacing: 1px;
-  text-align: left;
-  width: 40%;
+  text-align: center;
+  /* width: 40%; */
   color: ${props => (props.color ? props.color : theme.COLORS.gray_400)};
 `;
 

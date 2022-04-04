@@ -23,8 +23,12 @@ import {
   selectShowSubscribeDialog,
   showSubscribeDialog,
 } from '../../../features/ui/ui.slice';
-import Purchases, {PurchaserInfo} from 'react-native-purchases';
+import Purchases, {
+  PurchaserInfo,
+  PurchasesPackage,
+} from 'react-native-purchases';
 import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/SubscriptionModal';
+import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -45,7 +49,6 @@ export const ProfileScreen: React.FC<Props> = () => {
 
   const {id: userId, username, email, joinDate, rankId} = currentUser!;
 
-  /**Purchase Flow */
   React.useEffect(() => {
     getPurchaserInfo();
 
@@ -70,7 +73,9 @@ export const ProfileScreen: React.FC<Props> = () => {
 
   const handleCancelSubscription = () => {};
   const handleRestoreSubscription = () => {};
-  const handleCreateSubscription = () => {};
+  const handleCreateSubscription = (pack: PurchasesPackage) => {
+    dispatch(createSubscription(pack));
+  };
 
   return (
     <>

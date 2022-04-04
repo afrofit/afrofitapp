@@ -9,7 +9,6 @@ interface Props {
 }
 
 const PageHeaderSmall: React.FC<Props> = ({user}) => {
-  console.log(user);
   return (
     <HeaderContainer>
       <TitleText>Hello! {user?.username}</TitleText>

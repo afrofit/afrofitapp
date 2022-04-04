@@ -3,6 +3,10 @@ import {BaseCard} from '../../../../components/Cards/BaseCard';
 import {BaseFont} from '../../../../components/Font/BaseFont';
 import Spacer from '../../../../components/Library/Spacer';
 import {theme} from '../../../../theme/theme';
+import {
+  StatsContainer,
+  Stats,
+} from '../../../game/components/HomeStatsCard/HomeStatsCard.styles';
 import {StatsBox, StatsLine} from './ProfileStatsCard.styles';
 
 interface Props {
@@ -24,35 +28,44 @@ export const ProfileStatsCard: React.FC<Props> = ({
         Your Statistics
       </BaseFont>
       <Spacer />
-      <StatsLine>
-        <StatsBox>
-          <BaseFont variant="number-large">{calBurned}</BaseFont>
-          <BaseFont variant="label" color={theme.COLORS.gray_400}>
-            Calories Burned
+      <StatsContainer>
+        <Stats>
+          <BaseFont variant="number-large" color={theme.COLORS.yellow}>
+            {calBurned}
           </BaseFont>
-        </StatsBox>
-        <StatsBox>
-          <BaseFont variant="number-large">{hoursDanced}</BaseFont>
-          <BaseFont variant="label" color={theme.COLORS.gray_400}>
-            Hours Danced
+          <BaseFont variant="label" color={theme.COLORS.gray_300}>
+            Cals Burned
           </BaseFont>
-        </StatsBox>
-      </StatsLine>
-      <Spacer />
-      <StatsLine>
-        <StatsBox>
-          <BaseFont variant="number-large">{bodyMoves}</BaseFont>
-          <BaseFont variant="label" color={theme.COLORS.gray_400}>
+        </Stats>
+        <Stats>
+          <BaseFont variant="number-large" color={theme.COLORS.yellow}>
+            {bodyMoves}
+          </BaseFont>
+          <BaseFont variant="label" color={theme.COLORS.gray_300}>
             Body Moves
           </BaseFont>
-        </StatsBox>
-        <StatsBox>
-          <BaseFont variant="number-large">{daysActive}</BaseFont>
-          <BaseFont variant="label" color={theme.COLORS.gray_400}>
+        </Stats>
+      </StatsContainer>
+      <Spacer />
+
+      <StatsContainer>
+        <Stats>
+          <BaseFont variant="number-large" color={theme.COLORS.yellow}>
+            {daysActive}
+          </BaseFont>
+          <BaseFont variant="label" color={theme.COLORS.gray_300}>
             {daysActive < 2 ? 'Day Active' : 'Days Active'}
           </BaseFont>
-        </StatsBox>
-      </StatsLine>
+        </Stats>
+        <Stats>
+          <BaseFont variant="number-large" color={theme.COLORS.yellow}>
+            {hoursDanced}
+          </BaseFont>
+          <BaseFont variant="label" color={theme.COLORS.gray_300}>
+            Hours Danced
+          </BaseFont>
+        </Stats>
+      </StatsContainer>
     </BaseCard>
   );
 };

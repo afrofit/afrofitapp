@@ -17,14 +17,14 @@ const HomeStatsCard: React.FC<Props> = ({calBurned, bodyMovements}) => {
       <BaseFont variant="small-caps" color={theme.COLORS.gray_500}>
         Your Activity Today
       </BaseFont>
-      <Spacer />
+      <Spacer h={10} />
       <StatsContainer>
         <Stats>
           <BaseFont variant="number-large" color={theme.COLORS.yellow}>
             {calBurned}
           </BaseFont>
           <BaseFont variant="label" color={theme.COLORS.gray_300}>
-            Calories Burned
+            Cals Burned
           </BaseFont>
         </Stats>
         <Stats>

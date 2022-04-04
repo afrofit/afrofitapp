@@ -19,10 +19,10 @@ export const NumberText = styled.Text`
 `;
 
 export const Stats = styled.View`
-  width: 47%;
-  flex-direction: row;
+  width: 49.5%;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 export const StatsContainer = styled.View`

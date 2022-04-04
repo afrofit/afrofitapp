@@ -53,7 +53,7 @@ const ProfileSubscriptionCard: React.FC<Props> = ({
         <SubscriptionCardContainer>
           {info && activeSubscription && activeSubscription.isActive && (
             <>
-              <BaseFont variant="paragraph">
+              <BaseFont variant="small-paragraph">
                 Your{' '}
                 {activeSubscription.ownershipType === 'PURCHASED'
                   ? 'Premium'
@@ -62,7 +62,7 @@ const ProfileSubscriptionCard: React.FC<Props> = ({
               </BaseFont>
               <Spacer h={10} />
               {activeSubscription.expirationDate && (
-                <BaseFont variant="number-large">
+                <BaseFont variant="paragraph">
                   {parseSubscriptionEndDate(activeSubscription.expirationDate)}
                 </BaseFont>
               )}
