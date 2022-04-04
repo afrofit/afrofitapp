@@ -15,6 +15,36 @@ export const SmallCaps = styled.Text<Props>`
   color: ${props => (props.color ? props.color : 'white')};
 `;
 
+export const NumberLarge = styled.Text<Props>`
+  font-size: 35px;
+  font-weight: 200;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-right: 5px;
+  color: ${props => (props.color ? props.color : theme.COLORS.white)};
+`;
+
+export const NumberSmall = styled.Text<Props>`
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 40%;
+  color: ${props => (props.color ? props.color : theme.COLORS.gray_400)};
+`;
+
+export const LabelText = styled.Text<Props>`
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  text-align: left;
+  width: 40%;
+  color: ${props => (props.color ? props.color : theme.COLORS.gray_400)};
+`;
+
 export const BigCaps = styled.Text<Props>`
   font-size: 17px;
   font-weight: bold;

@@ -4,7 +4,10 @@ import {
   BoldParagraph,
   HeaderTitle,
   IdText,
+  LabelText,
   ModalTitle,
+  NumberLarge,
+  NumberSmall,
   Paragraph,
   SmallBoldParagraph,
   SmallCaps,
@@ -34,6 +37,9 @@ type FontSizeVariants =
   | 'tagline'
   | 'bold-paragraph'
   | 'small-tagline'
+  | 'label'
+  | 'number-small'
+  | 'number-large'
   | 'id-text';
 
 type FontColorVariants =
@@ -67,6 +73,12 @@ export const BaseFont: React.FC<Props> = ({
         {children}
       </SmallTagline>
     );
+  if (variant === 'number-large')
+    return <NumberLarge color={color}>{children}</NumberLarge>;
+  if (variant === 'number-small')
+    return <NumberSmall color={color}>{children}</NumberSmall>;
+  if (variant === 'label')
+    return <LabelText color={color}>{children}</LabelText>;
   if (variant === 'small-caps')
     return <SmallCaps color={color}>{children}</SmallCaps>;
   if (variant === 'id-text') return <IdText color={color}>{children}</IdText>;

@@ -14,6 +14,7 @@ import {fetchAllStories} from '../../../features/game/thunks/fetch-all-stories-t
 import {getAllStories} from '../../../features/game/slices/content.slice';
 import StoryList from '../../../features/game/components/StoryList/StoryList';
 import {getSubscriptionOfferings} from '../../../features/subscription/thunks/get-subscription-offers-thunk';
+import HomeStatsCard from '../../../features/game/components/HomeStatsCard/HomeStatsCard';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -43,6 +44,7 @@ export const HomeScreen: React.FC<Props> = () => {
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
       <PageHeaderSmall user={currentUser} />
+      <HomeStatsCard calBurned={100} bodyMovements={606} />
       <StoryList stories={stories} triggerNavigate={checkSubscriptionStatus} />
     </Page>
   );

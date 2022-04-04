@@ -22,10 +22,13 @@ const subscriptionSlice = createSlice({
     setOffer(state, action: PayloadAction<PurchasesOffering>) {
       state.offer = action.payload;
     },
+    resetOffer(state) {
+      state.offer = initialState.offer;
+    },
   },
 });
 
-export const {setOffer} = subscriptionSlice.actions;
+export const {setOffer, resetOffer} = subscriptionSlice.actions;
 
 export const selectOffer = (state: RootState) => state.subscription.offer;
 

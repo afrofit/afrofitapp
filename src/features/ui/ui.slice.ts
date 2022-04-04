@@ -5,11 +5,13 @@ import {RootState} from '../../store/store';
 export interface UIState {
   requestsLoading: number;
   showGenericErrorDialog: string;
+  showSubscribeDialog: boolean;
 }
 
 const initialState: UIState = {
   requestsLoading: 0,
   showGenericErrorDialog: '',
+  showSubscribeDialog: false,
 };
 
 const uiSlice = createSlice({
@@ -28,6 +30,9 @@ const uiSlice = createSlice({
     hideGenericErrorDialog(state) {
       state.showGenericErrorDialog = '';
     },
+    showSubscribeDialog(state, action: PayloadAction<boolean>) {
+      state.showSubscribeDialog = action.payload;
+    },
   },
 });
 
@@ -36,6 +41,7 @@ export const {
   finishedRequest,
   showGenericErrorDialog,
   hideGenericErrorDialog,
+  showSubscribeDialog,
 } = uiSlice.actions;
 
 export const selectUiIsLoading = (state: RootState) =>
@@ -43,5 +49,8 @@ export const selectUiIsLoading = (state: RootState) =>
 
 export const selectShowGenericErrorDialog = (state: RootState) =>
   state.ui.showGenericErrorDialog;
+
+export const selectShowSubscribeDialog = (state: RootState) =>
+  state.ui.showSubscribeDialog;
 
 export default uiSlice.reducer;
