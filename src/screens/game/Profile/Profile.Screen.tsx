@@ -10,7 +10,10 @@ import {
 import PageHeaderLarge from '../../../components/Headers/PageHeaderLarge/PageHeaderLarge';
 import {StyleSheet} from 'react-native';
 import Spacer from '../../../components/Library/Spacer';
-import {ProfileScreenScroller} from './Profile.Screen.styles';
+import {
+  ProfileScreenContainer,
+  ProfileScreenScroller,
+} from './Profile.Screen.styles';
 import {BaseFont} from '../../../components/Font/BaseFont';
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutUserThunk} from '../../../features/auth/logout-user-thunk';
@@ -29,6 +32,8 @@ import Purchases, {
 } from 'react-native-purchases';
 import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/SubscriptionModal';
 import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
+import {Filter} from '../../../features/profile/components/Filter/Filter';
+import {ProfilePagesEnum} from '../../../features/profile/types';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -46,12 +51,14 @@ export const ProfileScreen: React.FC<Props> = () => {
   const [purchaseInfo, setPurchaseInfo] = React.useState<PurchaserInfo | null>(
     null,
   );
+  const [currentPage, setCurrentPage] = React.useState<ProfilePagesEnum>(
+    ProfilePagesEnum.you,
+  );
 
   const {id: userId, username, email, joinDate, rankId} = currentUser!;
 
   React.useEffect(() => {
     getPurchaserInfo();
-
     Purchases.addPurchaserInfoUpdateListener(info => getPurchaserInfo());
   }, []);
 
@@ -77,6 +84,10 @@ export const ProfileScreen: React.FC<Props> = () => {
     dispatch(createSubscription(pack));
   };
 
+  const handlePageSwitch = (page: ProfilePagesEnum) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       {showDialog && (
@@ -87,32 +98,38 @@ export const ProfileScreen: React.FC<Props> = () => {
       )}
       <Page onPress={() => console.log('Tappable Screen!')}>
         <PageHeaderLarge title="Profile" />
-        <ProfileScreenScroller
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.contentContainer}>
-          <ProfileNameCard
-            username={username}
-            email={email}
-            joinDate={joinDate}
-            onTapUsername={() => setEditingUsername(true)}
-            rankId={rankId}
-          />
-          <ProfileStatsCard
-            calBurned={formatStatsNumbers(10992)}
-            bodyMoves={formatStatsNumbers(129912, true)}
-            hoursDanced={1}
-            daysActive={1}
-          />
-          <ProfileSubscriptionCard
-            info={purchaseInfo}
-            onCancelSubscription={handleCancelSubscription}
-            onRestoreSubscription={handleRestoreSubscription}
-            onTapSubscribe={() => dispatch(showSubscribeDialog(true))}
-          />
-          <BaseButton onPress={handleLogout} text="Logout" variant="red" />
-        </ProfileScreenScroller>
+        <Filter currentPage={currentPage} onSwitchPage={handlePageSwitch} />
+        <ProfileScreenContainer>
+          {currentPage === ProfilePagesEnum.you && (
+            <ProfileNameCard
+              username={username}
+              email={email}
+              joinDate={joinDate}
+              onChangeUsername={() => setEditingUsername(true)}
+              rankId={rankId}
+            />
+          )}
+          {currentPage === ProfilePagesEnum.stats && (
+            <ProfileStatsCard
+              calBurned={formatStatsNumbers(10992)}
+              bodyMoves={formatStatsNumbers(129912, true)}
+              hoursDanced={1}
+              daysActive={1}
+            />
+          )}
+          {currentPage === ProfilePagesEnum.subscription && (
+            <ProfileSubscriptionCard
+              info={purchaseInfo}
+              onCancelSubscription={handleCancelSubscription}
+              onRestoreSubscription={handleRestoreSubscription}
+              onTapSubscribe={() => dispatch(showSubscribeDialog(true))}
+            />
+          )}
+        </ProfileScreenContainer>
+        <BaseButton onPress={handleLogout} text="Logout" variant="red" />
         <Spacer h={10} />
         <BaseFont variant="id-text">USER ID: {userId}</BaseFont>
+        <Spacer />
       </Page>
     </>
   );

@@ -4,12 +4,11 @@ import {theme} from '../../../../theme/theme';
 export const ProfileNameCardTouchable = styled.Pressable``;
 
 export const ProfileNameCardContainer = styled.View`
+  align-items: flex-end;
+  flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
-export const ProfileNameCardContent = styled.View`
-  align-items: flex-end;
 `;
 
 export const UsernameText = styled.Text`

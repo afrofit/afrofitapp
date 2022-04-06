@@ -29,7 +29,7 @@ export function getSubscriptionOfferings(): AppThunk {
     dispatch(hideGenericErrorDialog());
     fetchSubscriptionOfferings()
       .then((offerings: OfferingsType) => {
-        console.log('Subscription Response', offerings);
+        // console.log('Subscription Response', offerings);
         dispatch(finishedRequest());
 
         if (!offerings) {

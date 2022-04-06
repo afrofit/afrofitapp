@@ -1,8 +1,8 @@
-type RankDataType = {
+export type RankDataType = {
   [index: number]: RankType;
 };
 
-type RankType = {
+export type RankType = {
   src: number;
   name: string;
   id: number;

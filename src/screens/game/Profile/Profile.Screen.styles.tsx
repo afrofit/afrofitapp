@@ -6,3 +6,7 @@ export const ProfileScreenScroller = styled.ScrollView`
   width: 100%;
   border-radius: ${theme.BORDER_RADIUS.md};
 `;
+
+export const ProfileScreenContainer = styled.View`
+  flex: 1;
+`;

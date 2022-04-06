@@ -4,6 +4,7 @@ import {theme} from '../../theme/theme';
 interface Props {
   color: string;
   bold?: boolean;
+  active?: boolean;
 }
 
 export const SmallCaps = styled.Text<Props>`

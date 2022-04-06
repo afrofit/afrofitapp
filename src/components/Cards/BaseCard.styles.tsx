@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const CardBackground = styled.View<Props>`
-  width: 95%;
+  width: 100%;
   min-height: 30px;
   background-color: ${props =>
     props.color ? props.color : theme.COLORS.darker};
@@ -16,7 +16,7 @@ export const CardBackground = styled.View<Props>`
 `;
 
 export const CardBackgroundOutline = styled.View<Props>`
-  width: 95%;
+  width: 100%;
   min-height: 30px;
   padding: 20px;
   border-radius: ${theme.BORDER_RADIUS.md};
