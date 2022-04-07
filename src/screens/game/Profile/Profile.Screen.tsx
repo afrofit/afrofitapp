@@ -35,6 +35,7 @@ import {createSubscription} from '../../../features/subscription/thunks/create-s
 import {Filter} from '../../../features/profile/components/Filter/Filter';
 import {ProfilePagesEnum} from '../../../features/profile/types';
 import {selectPerformanceData} from '../../../features/game/slices/activity.slice';
+import {fetchUserOverallActivity} from '../../../features/game/thunks/fetch-overall-activity-thunk';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -62,6 +63,7 @@ export const ProfileScreen: React.FC<Props> = () => {
   React.useEffect(() => {
     getPurchaserInfo();
     Purchases.addPurchaserInfoUpdateListener(info => getPurchaserInfo());
+    dispatch(fetchUserOverallActivity());
   }, []);
 
   const getPurchaserInfo = async () => {

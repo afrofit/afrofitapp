@@ -27,7 +27,7 @@ export function initializeUserMarathonScore(): AppThunk {
         const ok: boolean = response.ok;
 
         if (data && ok) {
-          // console.log("Marathon Initialized?", data);
+          // console.log('Marathon Initialized?', data);
           return dispatch(setUserMarathonScore(data));
         } else if (!ok) {
           if (data) {

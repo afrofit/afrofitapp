@@ -24,7 +24,7 @@ export function fetchUserOverallActivity(): AppThunk {
         return response;
       })
       .then((response: ApiResponse<any>) => {
-        // console.log("Performance Data", response.data);
+        // console.log('Performance Data', response.data);
         const data: UserStatsType = response.data;
         const ok: boolean = response.ok;
 
