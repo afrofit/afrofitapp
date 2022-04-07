@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {User} from '../../models/User';
 
 import {RootState} from '../../store/store';
+import {PasswordResetStages, passwordResetStages} from './types';
 
 export interface UserState {
   currentUser: User | null;
@@ -16,6 +17,7 @@ export interface UserState {
   resendPasswordResetCodeSuccess: boolean;
   changeUsernameSuccess: boolean;
   resetEmailSuccess: boolean;
+  stage: keyof PasswordResetStages;
 }
 
 const initialState: UserState = {
@@ -31,6 +33,7 @@ const initialState: UserState = {
   resendPasswordResetCodeSuccess: false,
   changeUsernameSuccess: false,
   resetEmailSuccess: false,
+  stage: 'REQUEST_LINK',
 };
 
 const userSlice = createSlice({
@@ -78,6 +81,12 @@ const userSlice = createSlice({
     setEmailResetSuccess(state, action: PayloadAction<boolean>) {
       state.signupSuccess = action.payload;
     },
+    switchPasswordResetStages(
+      state,
+      action: PayloadAction<keyof PasswordResetStages>,
+    ) {
+      state.stage = action.payload;
+    },
   },
 });
 
@@ -95,8 +104,10 @@ export const {
   setChangeUsernameSuccess,
   setEmailResetSuccess,
   setResendVerifyCodeSuccess,
+  switchPasswordResetStages,
 } = userSlice.actions;
 
+export const getPasswordResetStage = (state: RootState) => state.user.stage;
 export const getCurrentUser = (state: RootState) => state.user.currentUser;
 
 export const getCurrentUserToken = (state: RootState) =>
