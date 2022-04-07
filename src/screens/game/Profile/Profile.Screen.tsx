@@ -36,6 +36,8 @@ import {Filter} from '../../../features/profile/components/Filter/Filter';
 import {ProfilePagesEnum} from '../../../features/profile/types';
 import {selectPerformanceData} from '../../../features/game/slices/activity.slice';
 import {fetchUserOverallActivity} from '../../../features/game/thunks/fetch-overall-activity-thunk';
+import {FormModal} from '../../../components/Modal/FormModal/FormModal';
+import {FieldValues} from 'react-hook-form';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -50,13 +52,14 @@ export const ProfileScreen: React.FC<Props> = () => {
   const showDialog = useSelector(selectShowSubscribeDialog);
   const totalUserStats = useSelector(selectPerformanceData);
 
-  const [editingUsername, setEditingUsername] = React.useState(false);
   const [purchaseInfo, setPurchaseInfo] = React.useState<PurchaserInfo | null>(
     null,
   );
   const [currentPage, setCurrentPage] = React.useState<ProfilePagesEnum>(
     ProfilePagesEnum.you,
   );
+
+  const [showFormModal, setShowFormModal] = React.useState<boolean>(false);
 
   const {id: userId, username, email, joinDate, rankId} = currentUser!;
 
@@ -100,6 +103,13 @@ export const ProfileScreen: React.FC<Props> = () => {
           onDismiss={() => dispatch(showSubscribeDialog(false))}
         />
       )}
+      {showFormModal && (
+        <FormModal
+          title="Change your username"
+          buttonText="Update username"
+          onDismiss={() => setShowFormModal(false)}
+        />
+      )}
       <Page onPress={() => console.log('Tappable Screen!')}>
         <PageHeaderLarge title="Profile" />
         <Filter currentPage={currentPage} onSwitchPage={handlePageSwitch} />
@@ -109,7 +119,7 @@ export const ProfileScreen: React.FC<Props> = () => {
               username={username}
               email={email}
               joinDate={joinDate}
-              onChangeUsername={() => setEditingUsername(true)}
+              onChangeUsername={() => setShowFormModal(true)}
               rankId={rankId}
             />
           )}

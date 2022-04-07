@@ -34,11 +34,13 @@ export function createAccountThunk(formData: FieldValues): AppThunk {
             dispatch(setSignupSuccess(true));
             return;
           });
-        } else if (!ok && data) {
-          return showGenericErrorDialog('An internal error occured!');
-        } else {
+        } else if (!ok) {
           dispatch(showGenericErrorDialog("Can't create account. Retry?"));
-          throw new Error('Cannot create account');
+          if (data) {
+            console.error('Error', data);
+          } else if (!data) {
+            console.error('An internal error occured!');
+          }
         }
       })
       .catch(error => {

@@ -34,10 +34,14 @@ export function verifyUserThunk(formData: FieldValues): AppThunk {
             dispatch(setVerifySuccess(true));
             return;
           });
-        } else if (!ok && data) {
-          return showGenericErrorDialog('An internal error occured!');
-        } else {
+        } else if (!ok) {
           dispatch(showGenericErrorDialog('Invalid code. Retry?'));
+          if (data) {
+            console.error('Error', data);
+          } else if (!data) {
+            console.error('An internal error occured!');
+          }
+        } else {
           throw new Error('Cannot verify code.');
         }
       })

@@ -6,12 +6,14 @@ export interface UIState {
   requestsLoading: number;
   showGenericErrorDialog: string;
   showSubscribeDialog: boolean;
+  isSubmitting: boolean;
 }
 
 const initialState: UIState = {
   requestsLoading: 0,
   showGenericErrorDialog: '',
   showSubscribeDialog: false,
+  isSubmitting: false,
 };
 
 const uiSlice = createSlice({
@@ -33,6 +35,9 @@ const uiSlice = createSlice({
     showSubscribeDialog(state, action: PayloadAction<boolean>) {
       state.showSubscribeDialog = action.payload;
     },
+    setIsSubmitting(state, action: PayloadAction<boolean>) {
+      state.isSubmitting = action.payload;
+    },
   },
 });
 
@@ -42,6 +47,7 @@ export const {
   showGenericErrorDialog,
   hideGenericErrorDialog,
   showSubscribeDialog,
+  setIsSubmitting,
 } = uiSlice.actions;
 
 export const selectUiIsLoading = (state: RootState) =>
@@ -52,5 +58,7 @@ export const selectShowGenericErrorDialog = (state: RootState) =>
 
 export const selectShowSubscribeDialog = (state: RootState) =>
   state.ui.showSubscribeDialog;
+
+export const selectSubmitting = (state: RootState) => state.ui.isSubmitting;
 
 export default uiSlice.reducer;
