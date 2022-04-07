@@ -24,7 +24,7 @@ const ProfileNameCard: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <BaseCard color={theme.COLORS.darker} outline={true}>
+      <BaseCard color={theme.COLORS.darker}>
         <RankBadge sideLabel={false} size={110} rankCode={rankId} />
         <Spacer h={25} />
         <BaseFont>{username}</BaseFont>

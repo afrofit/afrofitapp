@@ -34,6 +34,7 @@ import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/Sub
 import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
 import {Filter} from '../../../features/profile/components/Filter/Filter';
 import {ProfilePagesEnum} from '../../../features/profile/types';
+import {selectPerformanceData} from '../../../features/game/slices/activity.slice';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -46,6 +47,7 @@ export const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(getCurrentUser);
   const showDialog = useSelector(selectShowSubscribeDialog);
+  const totalUserStats = useSelector(selectPerformanceData);
 
   const [editingUsername, setEditingUsername] = React.useState(false);
   const [purchaseInfo, setPurchaseInfo] = React.useState<PurchaserInfo | null>(
@@ -110,12 +112,7 @@ export const ProfileScreen: React.FC<Props> = () => {
             />
           )}
           {currentPage === ProfilePagesEnum.stats && (
-            <ProfileStatsCard
-              calBurned={formatStatsNumbers(10992)}
-              bodyMoves={formatStatsNumbers(129912, true)}
-              hoursDanced={1}
-              daysActive={1}
-            />
+            <ProfileStatsCard stats={totalUserStats} />
           )}
           {currentPage === ProfilePagesEnum.subscription && (
             <ProfileSubscriptionCard

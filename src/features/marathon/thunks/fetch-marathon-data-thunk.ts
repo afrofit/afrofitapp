@@ -10,14 +10,14 @@ import {
 import {setUserMarathonScore, setTopPerformers} from '../marathon.slice';
 import {UserMarathonTypes} from '../types/marathon.types';
 
-const getCurrentMarathonData = () =>
+const fetchMarathonDataApi = () =>
   API_CLIENT.get('/marathon/get-current-marathon-data');
 
 export function fetchMarathonData(): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
-    getCurrentMarathonData()
+    fetchMarathonDataApi()
       .then(response => {
         dispatch(finishedRequest());
         return response;

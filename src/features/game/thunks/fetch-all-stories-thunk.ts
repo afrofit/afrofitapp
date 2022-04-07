@@ -12,18 +12,16 @@ import {setStories} from '../slices/content.slice';
 
 export const getStories = () => API_CLIENT.get('/content/get-stories');
 
-/** Fetch all stories for home page */
 export function fetchAllStories(): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
     getStories()
       .then((response: ApiResponse<any>) => {
-        const {data, ok} = response;
+        const data: StoryType[] = response.data;
+        const ok: boolean = response.ok;
         dispatch(finishedRequest());
         if (data && ok) {
-          const {data} = response;
-
           const sortedStories = data.sort((a: StoryType, b: StoryType) =>
             a.storyOrderNumber < b.storyOrderNumber
               ? -1
@@ -31,12 +29,15 @@ export function fetchAllStories(): AppThunk {
           );
 
           return dispatch(setStories(sortedStories));
-        } else if (!ok && data) {
-          console.log('ErrorData', data);
-          return showGenericErrorDialog('An internal error occured!');
-        } else {
-          dispatch(showGenericErrorDialog("Can't get stories. Retry?"));
-          console.error('Cannot fetch stories.');
+        } else if (!ok) {
+          if (data) {
+            console.error('ErrorData', data);
+            return showGenericErrorDialog('An internal error occured!');
+          } else if (!data) {
+            dispatch(showGenericErrorDialog("Can't get stories. Retry?"));
+            console.error('Cannot fetch stories.');
+            return;
+          }
         }
       })
       .catch(error => {

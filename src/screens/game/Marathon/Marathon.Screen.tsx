@@ -26,6 +26,7 @@ import {MarathonLeagueCard} from '../../../features/marathon/components/Marathon
 import {findUserIndex} from '../../../features/marathon/utils/find-user-index';
 import {checkCurrentUserPosition} from '../../../features/marathon/utils/check-current-user-pos';
 import {getCurrentLeagueLimits} from '../../../features/marathon/utils/get-current-league-limits';
+import {RankingsCard} from '../../../features/marathon/components/RankingsCard/RankingsCard';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -72,6 +73,8 @@ export const MarathonScreen: React.FC<Props> = () => {
       <MarathonLeagueCard visibleRank={2} />
       {userMarathonLeague && (
         <MarathonScroller>
+          <RankingsCard rankPosition={1} currentUser={false} />
+          <RankingsCard rankPosition={2} currentUser={!!currentUser} />
           {/* {currentLeague.map((member, index: number) => {
             <RankingCard
               key={member.id}

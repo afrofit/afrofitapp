@@ -15,7 +15,7 @@ interface Props {
 
 export const MarathonLeagueCard: React.FC<Props> = ({visibleRank = 1}) => {
   return (
-    <BaseCard color={theme.COLORS.darker}>
+    <BaseCard color={theme.COLORS.darker} outline>
       <HorizontalScroller horizontal showsHorizontalScrollIndicator={false}>
         {Object.keys(RANKS_DATA).map(badgeId => {
           return (

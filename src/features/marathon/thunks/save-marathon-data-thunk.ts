@@ -10,14 +10,14 @@ import {
 } from '../../ui/ui.slice';
 import {MarathonDataType, UserMarathonTypes} from '../types/marathon.types';
 
-const saveMarathonData = (marathonData: MarathonDataType) =>
+const saveMarathonDataApi = (marathonData: MarathonDataType) =>
   API_CLIENT.post('/marathon/save-user-marathon-activity', {marathonData});
 
-export function saveUserMarathonData(data: MarathonDataType): AppThunk {
+export function saveMarathonData(data: MarathonDataType): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
-    saveMarathonData(data)
+    saveMarathonDataApi(data)
       .then(response => {
         dispatch(finishedRequest());
         return response;

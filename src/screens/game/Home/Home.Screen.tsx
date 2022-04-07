@@ -15,6 +15,9 @@ import {getAllStories} from '../../../features/game/slices/content.slice';
 import StoryList from '../../../features/game/components/StoryList/StoryList';
 import {getSubscriptionOfferings} from '../../../features/subscription/thunks/get-subscription-offers-thunk';
 import HomeStatsCard from '../../../features/game/components/HomeStatsCard/HomeStatsCard';
+import {selectDailyActivity} from '../../../features/game/slices/activity.slice';
+import {initializeUserMarathonScore} from '../../../features/marathon/thunks/initialize-marathon-data-thunk';
+import {fetchUserDailyActivity} from '../../../features/game/thunks/fetch-daily-activity';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -30,10 +33,13 @@ export const HomeScreen: React.FC<Props> = () => {
 
   const currentUser = useSelector(getCurrentUser);
   const stories = useSelector(getAllStories);
+  const todaysActivity = useSelector(selectDailyActivity);
 
   React.useEffect(() => {
     dispatch(getSubscriptionOfferings());
+    dispatch(initializeUserMarathonScore());
     dispatch(fetchAllStories());
+    dispatch(fetchUserDailyActivity());
   }, []);
 
   const checkSubscriptionStatus = () => {
@@ -44,7 +50,10 @@ export const HomeScreen: React.FC<Props> = () => {
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
       <PageHeaderSmall user={currentUser} />
-      <HomeStatsCard calBurned={100} bodyMovements={606} />
+      <HomeStatsCard
+        calBurned={todaysActivity.caloriesBurned}
+        bodyMovements={todaysActivity.bodyMoves}
+      />
       {stories && (
         <StoryList
           stories={stories}

@@ -14,7 +14,7 @@ const initialState: ActivityState = {
   },
   userStats: {
     totalCaloriesBurned: 0,
-    totalBodyMoves: 0,
+    totalBodyMoves: 70,
     totalTimeDancedInMilliseconds: 0,
     totalDaysActive: 0,
   },

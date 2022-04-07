@@ -7,36 +7,37 @@ import {
   finishedRequest,
   showGenericErrorDialog,
 } from '../../ui/ui.slice';
-import {setUserMarathonScore} from '../marathon.slice';
-import {UserMarathonTypes} from '../types/marathon.types';
+import {setUserPerformanceData} from '../slices/activity.slice';
+import {UserStatsType} from '../types/activity.types';
 
-const initializeUserMarathonScoreApi = () =>
-  API_CLIENT.get('/marathon/initialize-user-marathon-activity');
+const fetchUserOverallActivityApi = () =>
+  API_CLIENT.get('/performance/get-user-performance-data');
 
-export function initializeUserMarathonScore(): AppThunk {
+export function fetchUserOverallActivity(): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
-    initializeUserMarathonScoreApi()
+
+    fetchUserOverallActivityApi()
       .then(response => {
         dispatch(finishedRequest());
         return response;
       })
       .then((response: ApiResponse<any>) => {
-        const data: UserMarathonTypes = response.data;
+        // console.log("Performance Data", response.data);
+        const data: UserStatsType = response.data;
         const ok: boolean = response.ok;
 
         if (data && ok) {
-          // console.log("Marathon Initialized?", data);
-          return dispatch(setUserMarathonScore(data));
+          return dispatch(setUserPerformanceData(response.data));
         } else if (!ok) {
+          dispatch(
+            showGenericErrorDialog("Can't fetch your overall activity data."),
+          );
           if (data) {
             console.error('Error!', data);
-            return showGenericErrorDialog('An internal error occured!');
           } else if (!data) {
-            dispatch(showGenericErrorDialog("Can't initialize marathon data."));
-            console.error('Cannot initialize marathon data.');
-            return;
+            console.error('Cannot fetch your overall activity data.');
           }
         }
       })

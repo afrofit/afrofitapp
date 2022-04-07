@@ -5,7 +5,7 @@ import APP_SETTINGS from '../config/app-settings';
 
 const API_CLIENT = create({
   baseURL: APP_SETTINGS.apiUrl,
-  timeout: 1000,
+  timeout: 10000,
   timeoutErrorMessage: 'Network Error',
 });
 
