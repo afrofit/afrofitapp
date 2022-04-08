@@ -38,6 +38,7 @@ import {selectPerformanceData} from '../../../features/game/slices/activity.slic
 import {fetchUserOverallActivity} from '../../../features/game/thunks/fetch-overall-activity-thunk';
 import {FormModal} from '../../../components/Modal/FormModal/FormModal';
 import {FieldValues} from 'react-hook-form';
+import {getActiveLeague} from '../../../features/marathon/marathon.slice';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -62,6 +63,8 @@ export const ProfileScreen: React.FC<Props> = () => {
   const [showFormModal, setShowFormModal] = React.useState<boolean>(false);
 
   const {id: userId, username, email, joinDate, rankId} = currentUser!;
+
+  const activeLeague = useSelector(getActiveLeague);
 
   React.useEffect(() => {
     getPurchaserInfo();
@@ -120,7 +123,7 @@ export const ProfileScreen: React.FC<Props> = () => {
               email={email}
               joinDate={joinDate}
               onChangeUsername={() => setShowFormModal(true)}
-              rankId={rankId}
+              rankId={activeLeague?.leagueCode || 5}
             />
           )}
           {currentPage === ProfilePagesEnum.stats && (

@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {useSelector} from 'react-redux';
 import {
+  getActiveLeague,
   getTopPerformers,
   getUserMarathonIndex,
   getUserMarathonLeague,
@@ -39,8 +40,8 @@ export const MarathonScreen: React.FC<Props> = () => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector(getCurrentUser);
-  const userMarathonScore = useSelector(getUserMarathonScore);
-  const topPerformersArray = useSelector(getTopPerformers);
+  const currentUserIndex = useSelector(getUserMarathonIndex);
+  const activeLeague = useSelector(getActiveLeague);
   const userMarathonIndex = useSelector(getUserMarathonIndex);
   const userMarathonLeague = useSelector(getUserMarathonLeague);
 
@@ -49,41 +50,35 @@ export const MarathonScreen: React.FC<Props> = () => {
   }, []);
 
   React.useEffect(() => {
+    console.log('Active League', activeLeague);
+    console.log('CurrentUser index', currentUserIndex);
+  }, [activeLeague, currentUserIndex]);
+
+  React.useEffect(() => {
     if (userMarathonLeague) {
       //do something
     }
   }, [userMarathonIndex, userMarathonLeague]);
 
-  const currentUserIndex = findUserIndex(userMarathonScore, topPerformersArray);
-  let currentUserLeague;
-
-  if (currentUserIndex) {
-    dispatch(setCurrentUserIndex(currentUserIndex));
-    currentUserLeague = checkCurrentUserPosition(currentUserIndex);
-    if (currentUserLeague && currentUserLeague > 0) {
-      dispatch(setCurrentUserLeagueCode(currentUserLeague));
-    }
-  }
-
-  const limit = getCurrentLeagueLimits(userMarathonLeague);
-
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
       <PageHeaderLarge title="Marathon" />
-      <MarathonLeagueCard visibleRank={2} />
-      {userMarathonLeague && (
+      <MarathonLeagueCard visibleRank={activeLeague?.leagueCode || 1} />
+      {currentUser && userMarathonLeague && (
         <MarathonScroller>
-          <RankingsCard rankPosition={1} currentUser={false} />
-          <RankingsCard rankPosition={2} currentUser={!!currentUser} />
-          {/* {currentLeague.map((member, index: number) => {
-            <RankingCard
-              key={member.id}
-              rankPosition={index + 1}
-              currentUser={currentUser.id == member.userId}
-              username={member.username}
-              bodyMoves={member.bodyMoves}
-            />;
-          })} */}
+          {activeLeague &&
+            activeLeague.array.map((performer, index) => {
+              return (
+                <RankingsCard
+                  key={performer.id}
+                  rankPosition={index + 1}
+                  currentUser={currentUser.id === performer.userId}
+                  username={performer.username}
+                  bodyMoves={performer.bodyMoves}
+                />
+              );
+            })}
+          {/* <RankingsCard rankPosition={2} currentUser={!!currentUser} /> */}
         </MarathonScroller>
       )}
     </Page>

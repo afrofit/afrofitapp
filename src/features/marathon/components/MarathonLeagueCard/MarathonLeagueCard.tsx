@@ -10,10 +10,10 @@ import {RankBadge} from '../../../profile/components/RankBadge/RankBadge';
 import {HorizontalScroller} from './MarathonLeagueCard.styles';
 
 interface Props {
-  visibleRank?: number;
+  visibleRank: number;
 }
 
-export const MarathonLeagueCard: React.FC<Props> = ({visibleRank = 1}) => {
+export const MarathonLeagueCard: React.FC<Props> = ({visibleRank}) => {
   return (
     <BaseCard color={theme.COLORS.darker} outline>
       <HorizontalScroller horizontal showsHorizontalScrollIndicator={false}>

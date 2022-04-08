@@ -36,8 +36,8 @@ export const RankingsCard = ({
       </RankingsIdentifierGrouping>
       <BaseFont
         color={currentUser ? theme.COLORS.black : theme.COLORS.white}
-        variant="small-paragraph">
-        {bodyMoves} XP
+        variant="small-bold-paragraph">
+        {bodyMoves}
       </BaseFont>
     </RankingsCardContainer>
   );
