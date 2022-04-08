@@ -18,6 +18,14 @@ import HomeStatsCard from '../../../features/game/components/HomeStatsCard/HomeS
 import {selectDailyActivity} from '../../../features/game/slices/activity.slice';
 import {initializeUserMarathonScore} from '../../../features/marathon/thunks/initialize-marathon-data-thunk';
 import {fetchUserDailyActivity} from '../../../features/game/thunks/fetch-daily-activity';
+import {checkSubscriptionStatus} from '../../../features/subscription/utils/check-subscription-status';
+import {
+  selectShowSubscribeDialog,
+  showSubscribeDialog,
+} from '../../../features/ui/ui.slice';
+import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/SubscriptionModal';
+import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
+import {PurchasesPackage} from 'react-native-purchases';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -34,6 +42,7 @@ export const HomeScreen: React.FC<Props> = () => {
   const currentUser = useSelector(getCurrentUser);
   const stories = useSelector(getAllStories);
   const todaysActivity = useSelector(selectDailyActivity);
+  const showDialog = useSelector(selectShowSubscribeDialog);
 
   React.useEffect(() => {
     dispatch(getSubscriptionOfferings());
@@ -42,24 +51,38 @@ export const HomeScreen: React.FC<Props> = () => {
     dispatch(fetchUserDailyActivity());
   }, []);
 
-  const checkSubscriptionStatus = () => {
+  const handleCreateSubscription = (pack: PurchasesPackage) => {
+    dispatch(createSubscription(pack));
+  };
+
+  const goToStory = async (contentStoryId: string) => {
     console.log('Clicked!');
+    // First check if the user is subscription
+    const result = await checkSubscriptionStatus();
+    if (!result) {
+      // show subscription modal
+      return dispatch(showSubscribeDialog(true));
+    }
+    return navigation.navigate('StoryIntroScreen');
   };
 
   // onPress={() => navigation.navigate('Login')}
   return (
-    <Page onPress={() => console.log('Tappable Screen!')}>
-      <PageHeaderSmall user={currentUser} />
-      <HomeStatsCard
-        calBurned={todaysActivity.caloriesBurned}
-        bodyMovements={todaysActivity.bodyMoves}
-      />
-      {stories && (
-        <StoryList
-          stories={stories}
-          triggerNavigate={checkSubscriptionStatus}
+    <>
+      {showDialog && (
+        <SubscriptionModal
+          handleCreateSubscription={handleCreateSubscription}
+          onDismiss={() => dispatch(showSubscribeDialog(false))}
         />
       )}
-    </Page>
+      <Page onPress={() => console.log('Tappable Screen!')}>
+        <PageHeaderSmall user={currentUser} />
+        <HomeStatsCard
+          calBurned={todaysActivity.caloriesBurned}
+          bodyMovements={todaysActivity.bodyMoves}
+        />
+        {stories && <StoryList stories={stories} triggerNavigate={goToStory} />}
+      </Page>
+    </>
   );
 };
