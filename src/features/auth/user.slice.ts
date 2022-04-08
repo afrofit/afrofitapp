@@ -58,28 +58,28 @@ const userSlice = createSlice({
       state.signupSuccess = action.payload;
     },
     setVerifySuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.verifySuccess = action.payload;
     },
     setLoginSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.loginSuccess = action.payload;
     },
     setResendVerifyCodeSuccess(state, action: PayloadAction<boolean>) {
       state.resendVerifyCodeSuccess = action.payload;
     },
     setChangePasswordSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.changePasswordSuccess = action.payload;
     },
     setConfirmPasswordResetCodeSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.confirmPasswordResetCodeSuccess = action.payload;
     },
     setResendPasswordResetCodeSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.resendPasswordResetCodeSuccess = action.payload;
     },
     setChangeUsernameSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.changeUsernameSuccess = action.payload;
     },
     setEmailResetSuccess(state, action: PayloadAction<boolean>) {
-      state.signupSuccess = action.payload;
+      state.resetEmailSuccess = action.payload;
     },
     switchPasswordResetStages(
       state,

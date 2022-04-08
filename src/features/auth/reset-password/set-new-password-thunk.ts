@@ -10,16 +10,16 @@ import {
 } from '../../ui/ui.slice';
 import {setChangePasswordSuccess, setCurrentUserToken} from '../user.slice';
 
-export const setNewPassword = async (password: string) =>
+export const setNewPasswordApi = async (password: string) =>
   API_CLIENT.post('/users/set-new-password', {password});
 
-export function changeUserPassword(password: string): AppThunk {
+export function setNewPassword(password: string): AppThunk {
   return dispatch => {
     dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
     dispatch(setChangePasswordSuccess(false));
 
-    setNewPassword(password)
+    setNewPasswordApi(password)
       .then(response => {
         dispatch(finishedRequest());
         return response;

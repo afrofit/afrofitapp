@@ -14,10 +14,31 @@ import {BaseButton} from '../../../components/Buttons/BaseButton';
 import {SubmitHandler, FieldValues, useForm} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import {logIn} from '../../../features/auth/log-in-user-thunk';
-import {getPasswordResetStage} from '../../../features/auth/user.slice';
+import {
+  getChangePasswordSuccess,
+  getConfirmPasswordResetCodeSuccess,
+  getEmailResetSuccess,
+  getPasswordResetStage,
+  getVerifySuccess,
+  switchPasswordResetStages,
+} from '../../../features/auth/user.slice';
 import {EmailScreen} from './Screens/EmailScreen';
+import {CodeScreen} from './Screens/CodeScreen';
+import {NewPasswordScreen} from './Screens/NewPasswordScreen';
+import {
+  emailPasswordResetCode,
+  emailPasswordResetCodeApi,
+} from '../../../features/auth/reset-password/email-reset-code-thunks';
 
-type navigationType = StackNavigationProp<AuthStackParamList, 'Login'>;
+export type navigationType = StackNavigationProp<
+  AuthStackParamList,
+  | 'Login'
+  | 'Signup'
+  | 'SignupSuccess'
+  | 'ForgotPassword'
+  | 'ForgotPasswordSuccess'
+  | 'Welcome'
+>;
 
 interface Props {}
 
@@ -27,40 +48,46 @@ export const ForgotPasswordScreen: React.FC<Props> = ({}) => {
 
   const currentStage = useSelector(getPasswordResetStage);
 
-  const [email, setEmail] = React.useState(null);
+  const resetEmailStatus = useSelector(getEmailResetSuccess);
+  const verifyEmailStatus = useSelector(getConfirmPasswordResetCodeSuccess);
+  const changePasswordStatus = useSelector(getChangePasswordSuccess);
 
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm();
+  const [email, setEmail] = React.useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<FieldValues> = data => {
-    dispatch(logIn(data));
-  };
+  /** */
+
+  const [showModal, setShowModal] = React.useState<boolean>(false);
+  const [newPassword, setNewPassword] = React.useState<FieldValues | null>(
+    null,
+  );
+
+  React.useEffect(() => {
+    if (changePasswordStatus) {
+      navigation.navigate('ForgotPasswordSuccess');
+    }
+  }, [changePasswordStatus]);
+
+  /** */
+
+  React.useEffect(() => {
+    console.log(resetEmailStatus, verifyEmailStatus);
+    if (verifyEmailStatus && resetEmailStatus) {
+      dispatch(switchPasswordResetStages('RESET'));
+      return;
+    }
+    if (resetEmailStatus && !verifyEmailStatus) {
+      dispatch(switchPasswordResetStages('VERIFY'));
+      return;
+    }
+  }, [resetEmailStatus, verifyEmailStatus]);
 
   return (
     <PageImaged onPress={() => Keyboard.dismiss()}>
       <AuthScreensHeader title="Forgot Password" />
 
-      <EmailScreen setEmail={setEmail} />
-      {/* <CustomInput
-        name="email"
-        placeholder="Your email..."
-        label="Email"
-        control={control}
-        rules={{required: true, pattern: EMAIL_REGEX}}
-      />
-      <CustomInput
-        name="password"
-        placeholder="Your password..."
-        label="Password"
-        mode="password"
-        control={control}
-        rules={{required: true}}
-      />
-
-      <BaseButton text="Sign me in" onPress={handleSubmit(onSubmit)} /> */}
+      {currentStage === 'REQUEST_LINK' && <EmailScreen setEmail={setEmail} />}
+      {currentStage === 'VERIFY' && <CodeScreen email={email} />}
+      {currentStage === 'RESET' && <NewPasswordScreen />}
       <ClearButton
         text="Sign in instead?"
         variant="yellow"

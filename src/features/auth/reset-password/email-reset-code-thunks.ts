@@ -26,9 +26,9 @@ export function emailPasswordResetCode(email: string): AppThunk {
       .then((response: ApiResponse<any>) => {
         const {data, ok} = response;
         if (data && ok) {
-          dispatch(setEmailResetSuccess(true));
           DEVICE_STORAGE.STORE_RESET_TOKEN(data).then(() => {
             dispatch(setCurrentUserResetToken(data));
+            return dispatch(setEmailResetSuccess(true));
           });
         } else if (!ok) {
           dispatch(showGenericErrorDialog('Could not verify you. Retry?'));

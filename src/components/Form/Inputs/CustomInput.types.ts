@@ -1,3 +1,5 @@
+import {NativeSyntheticEvent, TextInputFocusEventData} from 'react-native';
+
 export interface ICustomImputProps {
   name: string;
   placeholder: string;
@@ -6,6 +8,9 @@ export interface ICustomImputProps {
   control: any;
   rules: any;
   maxLength?: number;
+  onFocus?:
+    | ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void)
+    | undefined;
 }
 
 export interface ErrorType {

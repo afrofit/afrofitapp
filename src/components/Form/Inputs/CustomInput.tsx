@@ -16,6 +16,7 @@ export const CustomInput: React.FC<ICustomImputProps> = ({
   control,
   rules = {},
   maxLength = 50,
+  onFocus,
 }) => {
   const keyboardType: KeyboardTypes =
     mode === 'email'
@@ -32,6 +33,8 @@ export const CustomInput: React.FC<ICustomImputProps> = ({
       ? 'Too Long!'
       : error.type === 'required'
       ? 'Required!'
+      : error.type === 'validate'
+      ? 'No match!'
       : 'Invalid';
   };
 
@@ -55,6 +58,7 @@ export const CustomInput: React.FC<ICustomImputProps> = ({
             onBlur={onBlur}
             value={value}
             maxLength={maxLength}
+            onFocus={onFocus}
           />
         </Field>
       )}

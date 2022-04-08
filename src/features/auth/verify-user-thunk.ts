@@ -30,7 +30,7 @@ export function verifyUserThunk(formData: FieldValues): AppThunk {
         const {data, ok} = response;
         if (data && ok) {
           DEVICE_STORAGE.STORE_TOKEN(data).then(() => {
-            // dispatch(setCurrentUserToken(data));
+            dispatch(setCurrentUserToken(data));
             dispatch(setVerifySuccess(true));
             return;
           });

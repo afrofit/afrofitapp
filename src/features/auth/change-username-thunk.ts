@@ -20,22 +20,19 @@ export const changeUsernameApi = async (username: string) =>
 
 export function changeUsername(username: string): AppThunk {
   return dispatch => {
-    dispatch(setIsSubmitting(true));
+    dispatch(newRequest());
     dispatch(hideGenericErrorDialog());
     dispatch(setChangeUsernameSuccess(false));
     changeUsernameApi(username)
       .then(response => {
-        dispatch(setIsSubmitting(false));
+        dispatch(finishedRequest());
         return response;
       })
       .then((response: ApiResponse<any>) => {
         const {data, ok} = response;
         if (data && ok) {
           DEVICE_STORAGE.STORE_TOKEN(data).then(() => {
-            // dispatch(setCurrentUserToken(data));
-            // return dispatch(setCurrentUserToken(data));
             DEVICE_STORAGE.GET_STORED_USER().then(response => {
-              console.log('chnage:', response);
               if (response) {
                 dispatch(setCurrentUser(response));
                 return dispatch(setChangeUsernameSuccess(true));

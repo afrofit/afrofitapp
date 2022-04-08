@@ -17,9 +17,11 @@ import {
   getCurrentUserToken,
   getResendVerifyCodeSuccess,
   getVerifySuccess,
+  setCurrentUser,
   setCurrentUserToken,
 } from '../../../features/auth/user.slice';
 import {resendUserVerificationCode} from '../../../features/auth/resend-verify-code-thunk';
+import deviceStorage from '../../../api/device-storage';
 
 type navigationType = StackNavigationProp<
   VerifyStackParamList,
@@ -51,7 +53,18 @@ export const VerifyCodeScreen: React.FC<Props> = ({}) => {
   };
 
   const handleTapContinue = React.useCallback(() => {
-    return currentUserToken && dispatch(setCurrentUserToken(currentUserToken));
+    console.log(currentUserToken);
+    if (currentUserToken) {
+      dispatch(setCurrentUserToken(currentUserToken));
+      deviceStorage.STORE_TOKEN(currentUserToken).then(() =>
+        deviceStorage.GET_STORED_USER().then(user => {
+          if (user) {
+            console.log(user);
+            return dispatch(setCurrentUser(user));
+          }
+        }),
+      );
+    }
   }, [currentUserToken]);
 
   React.useEffect(() => {

@@ -31,14 +31,12 @@ export const ForgotPasswordSuccessScreen: React.FC<Props> = () => {
   let animationRef: AnimatedLottieView | null;
 
   const currentUserToken = useSelector(getCurrentUserToken);
-  const currentUser = useSelector(getCurrentUser);
 
   const {backDisabled} = useDisableHardwareBack();
 
   useFocusEffect(backDisabled());
 
-  const handleFinaliseSignup = () => {
-    console.log('Is there a user?', currentUserToken);
+  const handleFinalisePasswordChange = () => {
     if (currentUserToken) {
       const user: User = jwtDecode(currentUserToken);
       dispatch(setCurrentUser(user));
@@ -52,31 +50,26 @@ export const ForgotPasswordSuccessScreen: React.FC<Props> = () => {
   return (
     <Page>
       <Spacer />
-      <NotifyScreensHeader title="Account Created!" />
+      <NotifyScreensHeader title="Password Changed!" />
       <Spacer />
-      <BaseFont variant="small-tagline" color={theme.COLORS.yellow}>
-        You've got email!
-      </BaseFont>
+
       <Spacer />
       <MiddleContainer>
         <AnimationContainer>
           <AnimatedLottieView
             ref={animation => (animationRef = animation)}
             loop={true}
-            // onAnimationFinish={onAnimationDone}
             style={styles.animation}
             source={require('../../assets/animations/thumbs_up.json')}
           />
         </AnimationContainer>
-        <BaseFont variant="bold-paragraph">
-          We've sent a 6-digit verification code to your email. Tap continue
-          when you've got it.
+        <BaseFont variant="small-tagline" color={theme.COLORS.yellow}>
+          Welcome back, champ!
         </BaseFont>
-
         <SignupSuccessButtonContainer>
           <BaseButton
-            onPress={handleFinaliseSignup}
-            text="Continue"
+            onPress={handleFinalisePasswordChange}
+            text="Continue to app"
             variant="white"
           />
         </SignupSuccessButtonContainer>

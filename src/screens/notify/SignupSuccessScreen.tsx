@@ -38,7 +38,6 @@ export const SignupSuccessScreen: React.FC<Props> = () => {
   useFocusEffect(backDisabled());
 
   const handleFinaliseSignup = () => {
-    console.log('Is there a user?', currentUserToken);
     if (currentUserToken) {
       const user: User = jwtDecode(currentUserToken);
       dispatch(setCurrentUser(user));

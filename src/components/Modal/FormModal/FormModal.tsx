@@ -44,20 +44,14 @@ export const FormModal: React.FC<Props> = ({
 
   return (
     <Modal title={title}>
-      {!isSubmitting && !isSubmitted && (
-        <CustomInput
-          name="username"
-          placeholder="New username..."
-          label="Username"
-          control={control}
-          rules={{required: true, minLength: 6, maxLength: 25}}
-        />
-      )}
-      {isSubmitting && <LocalLoader />}
-      <LocalLNotifier
-        message="Username Changed!"
-        visible={changeUsernameSuccessStatus}
+      <CustomInput
+        name="username"
+        placeholder="New username..."
+        label="Username"
+        control={control}
+        rules={{required: true, minLength: 6, maxLength: 25}}
       />
+
       <BaseButton
         text={buttonText}
         onPress={handleSubmit(onSubmit)}

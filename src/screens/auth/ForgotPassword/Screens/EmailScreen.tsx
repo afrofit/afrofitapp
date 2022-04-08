@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {FieldValues, SubmitHandler, useForm} from 'react-hook-form';
+import {Keyboard} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {BaseButton} from '../../../../components/Buttons/BaseButton';
@@ -8,10 +9,11 @@ import {CustomInput} from '../../../../components/Form/Inputs/CustomInput';
 import Spacer from '../../../../components/Library/Spacer';
 import {EMAIL_REGEX} from '../../../../constants/regex';
 import {logIn} from '../../../../features/auth/log-in-user-thunk';
+import {emailPasswordResetCode} from '../../../../features/auth/reset-password/email-reset-code-thunks';
 import {theme} from '../../../../theme/theme';
 
 interface Props {
-  setEmail: React.Dispatch<React.SetStateAction<null>>;
+  setEmail: React.Dispatch<React.SetStateAction<null | string>>;
 }
 
 export const EmailScreen: React.FC<Props> = ({setEmail}) => {
@@ -24,8 +26,10 @@ export const EmailScreen: React.FC<Props> = ({setEmail}) => {
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = formData => {
-    console.log('EmailData', formData);
-    // dispatch(logIn(data));
+    const {email} = formData;
+    dispatch(emailPasswordResetCode(email));
+    setEmail(email);
+    return Keyboard.dismiss();
   };
 
   return (
