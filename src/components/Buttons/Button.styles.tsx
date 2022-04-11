@@ -26,6 +26,10 @@ export const SolidButton = styled.Pressable<StyledButtonProps>`
   align-self: center;
 `;
 
+export const SolidDisabledButton = styled(SolidButton)`
+  background-color: ${theme.COLORS.gray_400};
+`;
+
 export const Touchable = styled.Pressable`
   margin: 10px;
 `;

@@ -4,11 +4,12 @@ import {BaseFont} from '../../../../components/Font/BaseFont';
 import Spacer from '../../../../components/Library/Spacer';
 import {StoryType} from '../../../../models/Story';
 import {theme} from '../../../../theme/theme';
+import {StorySummaryModel} from '../../../../types/types';
 import StoryCard from '../StoryCard/StoryCard';
 import {StoryListContainer, StoryListScroller} from './StoryList.styles';
 
 interface Props {
-  triggerNavigate: (contentStoryId: string) => void;
+  triggerNavigate: (storyModel: StorySummaryModel) => void;
   stories: StoryType[] | [];
 }
 
@@ -16,12 +17,20 @@ const StoryListSection: React.FC<Props> = ({triggerNavigate, stories}) => {
   const renderStories = () => {
     return stories.length ? (
       stories.map(story => {
+        const storyModel: StorySummaryModel = {
+          contentStoryId: story.contentStoryId,
+          instruction: story.instruction,
+          completed: story.completed,
+          started: story.started,
+          introVideo: story.introVideo,
+          title: story.title,
+        };
         return (
           <StoryCard
             key={story.contentStoryId}
             source={story.thumb}
             storyTitle={story.title}
-            onPress={() => triggerNavigate(story.contentStoryId)}
+            onPress={() => triggerNavigate(storyModel)}
             completed={story.completed}
             started={story.started}
             totalTargetBodyMoves={story.totalTargetBodyMoves}

@@ -26,6 +26,7 @@ import {
 import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/SubscriptionModal';
 import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
 import {PurchasesPackage} from 'react-native-purchases';
+import {StorySummaryModel} from '../../../types/types';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -55,18 +56,24 @@ export const HomeScreen: React.FC<Props> = () => {
     dispatch(createSubscription(pack));
   };
 
-  const goToStory = async (contentStoryId: string) => {
+  const goToStory = async (storySummary: StorySummaryModel) => {
+    const {contentStoryId, introVideo, instruction, completed, started, title} =
+      storySummary;
     console.log('Clicked!');
-    // First check if the user is subscription
-    const result = await checkSubscriptionStatus();
-    if (!result) {
-      // show subscription modal
-      return dispatch(showSubscribeDialog(true));
-    }
-    return navigation.navigate('StoryIntroScreen');
+    // const result = await checkSubscriptionStatus();
+    // if (!result) {
+    //   return dispatch(showSubscribeDialog(true));
+    // }
+    return navigation.navigate('StoryIntroScreen', {
+      contentStoryId,
+      introVideo,
+      completed,
+      started,
+      instruction,
+      title,
+    });
   };
 
-  // onPress={() => navigation.navigate('Login')}
   return (
     <>
       {showDialog && (

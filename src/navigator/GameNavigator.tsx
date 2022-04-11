@@ -7,11 +7,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {theme} from '../theme/theme';
 import {MarathonScreen} from '../screens/game/Marathon/Marathon.Screen';
 import {ProfileScreen} from '../screens/game/Profile/Profile.Screen';
+import {StoryIntroScreen} from '../screens/dance/StoryIntroScreen';
+import {StorySummaryModel} from '../types/types';
 
 export type GameStackParamList = {
   GameRoot: undefined;
   StoryScreen: undefined;
-  StoryIntroScreen: undefined;
+  StoryIntroScreen: StorySummaryModel;
   ChapterScreen: undefined;
   DanceScreen: undefined;
   ResultsScreen: undefined;
@@ -74,6 +76,7 @@ const GameNavigatorTabs = () => (
 const GameNavigator = () => (
   <Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
     <Screen name={'GameRoot'} component={GameNavigatorTabs} />
+    <Screen name={'StoryIntroScreen'} component={StoryIntroScreen} />
   </Navigator>
 );
 
