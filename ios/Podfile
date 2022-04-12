@@ -6,6 +6,8 @@ platform :ios, '12.0'
 
 target 'afrofitapp' do
   use_expo_modules!
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   post_integrate do |installer|
     begin
       expo_patch_react_imports!(installer)

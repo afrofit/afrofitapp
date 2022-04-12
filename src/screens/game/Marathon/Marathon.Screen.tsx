@@ -19,15 +19,12 @@ import {
   GameScreensStackParamList,
   GameStackParamList,
 } from '../../../navigator/GameNavigator';
-import PageHeaderLarge from '../../../components/Headers/PageHeaderLarge/PageHeaderLarge';
 import {useDispatch} from 'react-redux';
 import {MarathonScroller} from './Marathon.Screen.styles';
 import {fetchMarathonData} from '../../../features/marathon/thunks/fetch-marathon-data-thunk';
 import {MarathonLeagueCard} from '../../../features/marathon/components/MarathonLeagueCard/MarathonLeagueCard';
-import {findUserIndex} from '../../../features/marathon/utils/find-user-index';
-import {checkCurrentUserPosition} from '../../../features/marathon/utils/check-current-user-pos';
-import {getCurrentLeagueLimits} from '../../../features/marathon/utils/get-current-league-limits';
 import {RankingsCard} from '../../../features/marathon/components/RankingsCard/RankingsCard';
+import PageHeaderGeneral from '../../../components/Headers/PageHeaderGeneral/PageHeaderGeneral';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -62,7 +59,7 @@ export const MarathonScreen: React.FC<Props> = () => {
 
   return (
     <Page onPress={() => console.log('Tappable Screen!')}>
-      <PageHeaderLarge title="Marathon" />
+      <PageHeaderGeneral title="Marathon" />
       <MarathonLeagueCard visibleRank={activeLeague?.leagueCode || 1} />
       {currentUser && userMarathonLeague && (
         <MarathonScroller>

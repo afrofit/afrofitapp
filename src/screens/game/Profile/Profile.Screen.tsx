@@ -7,13 +7,9 @@ import {
   GameScreensStackParamList,
   GameStackParamList,
 } from '../../../navigator/GameNavigator';
-import PageHeaderLarge from '../../../components/Headers/PageHeaderLarge/PageHeaderLarge';
 import {StyleSheet} from 'react-native';
 import Spacer from '../../../components/Library/Spacer';
-import {
-  ProfileScreenContainer,
-  ProfileScreenScroller,
-} from './Profile.Screen.styles';
+import {ProfileScreenContainer} from './Profile.Screen.styles';
 import {BaseFont} from '../../../components/Font/BaseFont';
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutUserThunk} from '../../../features/auth/logout-user-thunk';
@@ -37,8 +33,8 @@ import {ProfilePagesEnum} from '../../../features/profile/types';
 import {selectPerformanceData} from '../../../features/game/slices/activity.slice';
 import {fetchUserOverallActivity} from '../../../features/game/thunks/fetch-overall-activity-thunk';
 import {FormModal} from '../../../components/Modal/FormModal/FormModal';
-import {FieldValues} from 'react-hook-form';
 import {getActiveLeague} from '../../../features/marathon/marathon.slice';
+import PageHeaderGeneral from '../../../components/Headers/PageHeaderGeneral/PageHeaderGeneral';
 
 type navigationType = StackNavigationProp<
   GameStackParamList & GameScreensStackParamList,
@@ -114,7 +110,7 @@ export const ProfileScreen: React.FC<Props> = () => {
         />
       )}
       <Page onPress={() => console.log('Tappable Screen!')}>
-        <PageHeaderLarge title="Profile" />
+        <PageHeaderGeneral title="Profile" />
         <Filter currentPage={currentPage} onSwitchPage={handlePageSwitch} />
         <ProfileScreenContainer>
           {currentPage === ProfilePagesEnum.you && (
