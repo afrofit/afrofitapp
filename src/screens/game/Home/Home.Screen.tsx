@@ -27,16 +27,12 @@ import {SubscriptionModal} from '../../../components/Modal/SubscriptionModal/Sub
 import {createSubscription} from '../../../features/subscription/thunks/create-subscription-thunk';
 import {PurchasesPackage} from 'react-native-purchases';
 import {StorySummaryModel} from '../../../types/types';
-
-type navigationType = StackNavigationProp<
-  GameStackParamList & GameScreensStackParamList,
-  'Home'
->;
+import {GameNavigationType} from '../../../types/navigation-types';
 
 interface Props {}
 
 export const HomeScreen: React.FC<Props> = () => {
-  const navigation = useNavigation<navigationType>();
+  const navigation = useNavigation<GameNavigationType>();
 
   const dispatch = useDispatch();
 

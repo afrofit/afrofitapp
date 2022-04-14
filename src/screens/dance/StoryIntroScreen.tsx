@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {VideoBackground} from '../../components/Video/VideoBackground';
+import VideoBackground from '../../components/Video/VideoBackground';
 import PageHeaderGeneral from '../../components/Headers/PageHeaderGeneral/PageHeaderGeneral';
 import {BaseFont} from '../../components/Font/BaseFont';
 import {SafeAreaView} from 'react-native';
@@ -13,6 +13,13 @@ import Spacer from '../../components/Library/Spacer';
 import {BaseButton} from '../../components/Buttons/BaseButton';
 import {ThreeStars} from '../../components/Elements/ThreeStars/ThreeStars';
 import {StorySummaryModel} from '../../types/types';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {
+  GameStackParamList,
+  GameScreensStackParamList,
+} from '../../navigator/GameNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {GameNavigationType} from '../../types/navigation-types';
 
 type ParamsType = {
   params: {[key in keyof StorySummaryModel]: string | boolean};
@@ -23,13 +30,33 @@ interface Props {
 }
 
 export const StoryIntroScreen: React.FC<Props> = ({route}) => {
+  const navigation = useNavigation<GameNavigationType>();
+
+  const videoBackgroundRef = React.useRef<any>(null);
+
+  const [disableButtons, setDisableButtons] = React.useState<boolean>(true);
+
   const {contentStoryId, completed, started, instruction, introVideo, title} =
     route.params;
 
-  console.log(title, contentStoryId);
+  //   console.log(title, contentStoryId);
 
-  const handleStartStory = async () => {};
-  const handleQuitStory = async () => {};
+  const pauseVideo = () => {
+    videoBackgroundRef.current?.pauseVideo();
+  };
+  const playVideo = () => {
+    videoBackgroundRef.current?.playVideo();
+  };
+
+  const handleStartStory = async () => {
+    await videoBackgroundRef.current?.unmountVideo();
+    navigation.navigate('StoryScreen');
+  };
+
+  const handleQuitStory = async () => {
+    await videoBackgroundRef.current?.unmountVideo();
+    navigation.goBack();
+  };
 
   return (
     <>
@@ -47,13 +74,13 @@ export const StoryIntroScreen: React.FC<Props> = ({route}) => {
             <BaseButton
               variant="red"
               text="Start Story"
-              onPress={() => console.log('Start Story')}
-              disabled
+              onPress={handleStartStory}
+              disabled={disableButtons}
             />
             <BaseButton
-              disabled
+              disabled={disableButtons}
               text="Exit"
-              onPress={() => console.log('Exit Story')}
+              onPress={handleQuitStory}
             />
           </ButtonsContainer>
         </OverVideoContainer>
@@ -61,7 +88,8 @@ export const StoryIntroScreen: React.FC<Props> = ({route}) => {
       <VideoBackground
         videoURL={introVideo as string}
         onVideoFinished={() => console.log('Video finished!')}
-        onVideoHalfwayFinished={() => console.log('video halfway finished')}
+        onVideoHalfwayFinished={() => setDisableButtons(false)}
+        ref={videoBackgroundRef}
       />
     </>
   );

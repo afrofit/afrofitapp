@@ -16,13 +16,14 @@ interface Props {
   onVideoHalfwayFinished: () => void;
   onPause?: () => void;
   onPlay?: () => void;
-  children?: React.ReactNode;
 }
 
-const VideoBackground = (
-  {videoURL, onVideoFinished, onVideoHalfwayFinished, children}: Props,
-  ref: React.Ref<any>,
-) => {
+export const VideoBackground: React.FC<Props> = ({
+  videoURL,
+  onVideoFinished,
+  onVideoHalfwayFinished,
+  children,
+}) => {
   const [videoLoading, setVideoLoading] = React.useState(false);
   const [videoStatus, setVideoStatus] =
     React.useState<AVPlaybackStatus | null>();
@@ -56,33 +57,21 @@ const VideoBackground = (
     return videoRef?.current?.unloadAsync();
   };
 
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      pauseVideo: async () => {
+  const pauseVideo = async () => {
+    if (videoStatus?.isLoaded) {
+      if (videoStatus.isPlaying) {
         await videoRef?.current?.pauseAsync();
-        // if (videoStatus?.isLoaded) {
-        //   if (videoStatus.isPlaying) {
-        //     await videoRef?.current?.pauseAsync();
-        //   }
-        // }
-      },
+      }
+    }
+  };
 
-      playVideo: async () => {
+  const playVideo = async () => {
+    if (videoStatus?.isLoaded) {
+      if (!videoStatus.isPlaying) {
         await videoRef?.current?.playAsync();
-        // if (videoStatus?.isLoaded) {
-        //   if (!videoStatus.isPlaying) {
-        //     await videoRef?.current?.playAsync();
-        //   }
-        // }
-      },
-      unmountVideo: async () => {
-        await videoRef?.current?.stopAsync();
-        return videoRef?.current?.unloadAsync();
-      },
-    }),
-    [],
-  );
+      }
+    }
+  };
 
   return (
     <VideoContainer>
@@ -109,5 +98,3 @@ const VideoBackground = (
     </VideoContainer>
   );
 };
-
-export default React.forwardRef(VideoBackground);

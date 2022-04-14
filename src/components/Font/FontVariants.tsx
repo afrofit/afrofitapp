@@ -129,6 +129,16 @@ export const SmallTagline = styled.Text<Props>`
   font-weight: ${props => (props.bold ? 700 : 500)};
 `;
 
+export const TagTiny = styled.Text<Props>`
+  color: ${props => (props.color ? props.color : 'white')};
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: ${props => (props.bold ? 700 : 500)};
+`;
+
 export const IdText = styled.Text<Props>`
   color: ${theme.COLORS.gray_400};
   font-size: 13px;

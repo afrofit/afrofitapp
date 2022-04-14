@@ -14,6 +14,7 @@ import {
   SmallParagraph,
   SmallTagline,
   Tagline,
+  TagTiny,
   Title,
 } from './FontVariants';
 
@@ -40,6 +41,7 @@ type FontSizeVariants =
   | 'label'
   | 'number-small'
   | 'number-large'
+  | 'tag-tiny'
   | 'id-text';
 
 type FontColorVariants =
@@ -90,6 +92,8 @@ export const BaseFont: React.FC<Props> = ({
     return <BoldParagraph color={color}>{children}</BoldParagraph>;
   if (variant === 'small-bold-paragraph')
     return <SmallBoldParagraph color={color}>{children}</SmallBoldParagraph>;
+  if (variant === 'tag-tiny')
+    return <TagTiny color={color}>{children}</TagTiny>;
 
   return <Paragraph color={color}>{children}</Paragraph>;
 };

@@ -9,6 +9,7 @@ import {MarathonScreen} from '../screens/game/Marathon/Marathon.Screen';
 import {ProfileScreen} from '../screens/game/Profile/Profile.Screen';
 import {StoryIntroScreen} from '../screens/dance/StoryIntroScreen';
 import {StorySummaryModel} from '../types/types';
+import {StoryScreen} from '../screens/dance/StoryScreen';
 
 export type GameStackParamList = {
   GameRoot: undefined;
@@ -77,6 +78,7 @@ const GameNavigator = () => (
   <Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
     <Screen name={'GameRoot'} component={GameNavigatorTabs} />
     <Screen name={'StoryIntroScreen'} component={StoryIntroScreen} />
+    <Screen name={'StoryScreen'} component={StoryScreen} />
   </Navigator>
 );
 
