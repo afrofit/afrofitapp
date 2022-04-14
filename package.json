@@ -26,6 +26,7 @@
     "expo": ">=44.0.0-0 <45.0.0",
     "expo-av": "~10.2.0",
     "expo-constants": "~13.0.1",
+    "expo-linking": "~3.0.0",
     "expo-secure-store": "~11.1.0",
     "expo-sensors": "~11.1.0",
     "expo-updates": "^0.11.6",
