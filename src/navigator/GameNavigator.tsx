@@ -10,13 +10,18 @@ import {ProfileScreen} from '../screens/game/Profile/Profile.Screen';
 import {StoryIntroScreen} from '../screens/dance/StoryIntroScreen';
 import {StorySummaryModel} from '../types/types';
 import {StoryScreen} from '../screens/dance/StoryScreen';
+import {ChapterType} from '../models/Chapter';
+import {ChapterScreen} from '../screens/dance/ChapterScreen';
+import {DanceScreen} from '../screens/dance/DanceScreen';
+import {StoryFinishedScreen} from '../screens/dance/StoryFinishedScreen';
+import {DanceResultsScreen} from '../screens/dance/DanceResultsScreen';
 
 export type GameStackParamList = {
   GameRoot: undefined;
-  StoryScreen: undefined;
+  StoryScreen: {contentStoryId: string};
   StoryIntroScreen: StorySummaryModel;
-  ChapterScreen: undefined;
-  DanceScreen: undefined;
+  ChapterScreen: ChapterType;
+  DanceScreen: ChapterType;
   ResultsScreen: undefined;
   StoryFinish: undefined;
 };
@@ -79,6 +84,10 @@ const GameNavigator = () => (
     <Screen name={'GameRoot'} component={GameNavigatorTabs} />
     <Screen name={'StoryIntroScreen'} component={StoryIntroScreen} />
     <Screen name={'StoryScreen'} component={StoryScreen} />
+    <Screen name={'ChapterScreen'} component={ChapterScreen} />
+    <Screen name={'DanceScreen'} component={DanceScreen} />
+    <Screen name={'StoryFinish'} component={StoryFinishedScreen} />
+    <Screen name={'ResultsScreen'} component={DanceResultsScreen} />
   </Navigator>
 );
 

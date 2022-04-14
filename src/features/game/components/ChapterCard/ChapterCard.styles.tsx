@@ -19,7 +19,7 @@ export const ChapterCardTagBackground = styled.View<Props>`
   padding-right: 10px;
   padding-left: 10px;
   background-color: ${props =>
-    props.tagColor ? props.tagColor : theme.COLORS.gray_300};
+    props.color ? props.color : theme.COLORS.gray_300};
   border-radius: ${theme.BORDER_RADIUS.sm};
 `;
 

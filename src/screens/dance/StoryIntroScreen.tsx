@@ -50,7 +50,9 @@ export const StoryIntroScreen: React.FC<Props> = ({route}) => {
 
   const handleStartStory = async () => {
     await videoBackgroundRef.current?.unmountVideo();
-    navigation.navigate('StoryScreen');
+    navigation.navigate('StoryScreen', {
+      contentStoryId: contentStoryId as string,
+    });
   };
 
   const handleQuitStory = async () => {

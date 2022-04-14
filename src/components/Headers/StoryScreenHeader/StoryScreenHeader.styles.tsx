@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {theme} from '../../../theme/theme';
 
-export const StoryImageBackground = styled.View`
+export const StoryHeaderBackground = styled.View`
   min-height: 20px;
   width: 100%;
   margin-bottom: ${theme.MARGIN.lg};

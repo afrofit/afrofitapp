@@ -6,3 +6,10 @@ export type StorySummaryModel = {
   started: boolean;
   title: string;
 };
+
+export type ChapterSummaryModel = {
+  contentStoryId: string;
+  completed: boolean;
+  started: boolean;
+  title: string;
+};

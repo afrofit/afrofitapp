@@ -27,3 +27,9 @@ export const VideoContentsContainer = styled.View<Props>`
   justify-content: flex-end;
   flex: 1;
 `;
+
+export const ScreenMidContainer = styled.View<Props>`
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+`;

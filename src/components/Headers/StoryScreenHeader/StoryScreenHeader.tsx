@@ -1,17 +1,38 @@
 import * as React from 'react';
+import {StoryType} from '../../../models/Story';
 import {theme} from '../../../theme/theme';
+import {calculatePercentageCompleted} from '../../../utils/calculators';
 import {BaseFont} from '../../Font/BaseFont';
 import Spacer from '../../Library/Spacer';
-import {StoryImageBackground} from './StoryScreenHeader.styles';
+import {StoryHeaderBackground} from './StoryScreenHeader.styles';
 
-export const StoryScreenHeader = () => {
+interface Props {
+  currentStory: StoryType | null;
+}
+
+export const StoryScreenHeader: React.FC<Props> = ({currentStory}) => {
+  const generateStatus = () => {
+    if (currentStory) {
+      if (currentStory.started && currentStory.completed) return 'Completed';
+      else if (currentStory.started && !currentStory.completed) {
+        calculatePercentageCompleted(
+          currentStory.totalBodyMoves,
+          currentStory.totalTargetBodyMoves,
+        );
+        return '% Completed';
+      }
+    }
+    return 'Not started';
+  };
   return (
-    <StoryImageBackground>
-      <BaseFont variant="title">AJ's Big Fight</BaseFont>
-      <Spacer h={5} />
-      <BaseFont variant="small-caps" color={theme.COLORS.gray_500}>
-        30% complete
+    <StoryHeaderBackground>
+      <BaseFont variant="title">
+        {currentStory ? currentStory.title : 'Loading title...'}
       </BaseFont>
-    </StoryImageBackground>
+      <Spacer h={5} />
+      <BaseFont variant="small-caps" color={theme.COLORS.yellow}>
+        {generateStatus()}
+      </BaseFont>
+    </StoryHeaderBackground>
   );
 };
