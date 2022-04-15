@@ -61,7 +61,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     useBodyMovements();
 
   React.useEffect(() => {
-    // startMoving();
+    startMoving();
     console.log('Pedometer', pedometerIsAvailable);
   }, []);
 
