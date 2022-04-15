@@ -13,11 +13,7 @@ import Spacer from '../../components/Library/Spacer';
 import {BaseButton} from '../../components/Buttons/BaseButton';
 import {ThreeStars} from '../../components/Elements/ThreeStars/ThreeStars';
 import {StorySummaryModel} from '../../types/types';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {
-  GameStackParamList,
-  GameScreensStackParamList,
-} from '../../navigator/GameNavigator';
+
 import {useNavigation} from '@react-navigation/native';
 import {GameNavigationType} from '../../types/navigation-types';
 

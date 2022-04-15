@@ -17,10 +17,17 @@ interface Props {
   onPause?: () => void;
   onPlay?: () => void;
   children?: React.ReactNode;
+  loop?: boolean;
 }
 
 const VideoBackground = (
-  {videoURL, onVideoFinished, onVideoHalfwayFinished, children}: Props,
+  {
+    videoURL,
+    onVideoFinished,
+    onVideoHalfwayFinished,
+    children,
+    loop = false,
+  }: Props,
   ref: React.Ref<any>,
 ) => {
   const [videoLoading, setVideoLoading] = React.useState(false);
@@ -95,7 +102,7 @@ const VideoBackground = (
           resizeMode={Video.RESIZE_MODE_COVER}
           onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           shouldPlay={true}
-          isLooping={false}
+          isLooping={loop}
           rate={1}
           onLoadStart={() => setVideoLoading(true)}
           onLoad={() => setVideoLoading(false)}>

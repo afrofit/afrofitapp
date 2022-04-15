@@ -6,6 +6,7 @@ import {
   IdText,
   LabelText,
   ModalTitle,
+  NumberBigBold,
   NumberLarge,
   NumberSmall,
   Paragraph,
@@ -41,6 +42,7 @@ type FontSizeVariants =
   | 'label'
   | 'number-small'
   | 'number-large'
+  | 'number-big-bold'
   | 'tag-tiny'
   | 'id-text';
 
@@ -77,6 +79,8 @@ export const BaseFont: React.FC<Props> = ({
     );
   if (variant === 'number-large')
     return <NumberLarge color={color}>{children}</NumberLarge>;
+  if (variant === 'number-big-bold')
+    return <NumberBigBold color={color}>{children}</NumberBigBold>;
   if (variant === 'number-small')
     return <NumberSmall color={color}>{children}</NumberSmall>;
   if (variant === 'label')

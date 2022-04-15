@@ -8,7 +8,7 @@ import Spacer from '../../components/Library/Spacer';
 import {Page} from '../../components/Page/Page';
 import {ChapterType} from '../../models/Chapter';
 import {theme} from '../../theme/theme';
-import {ScreenMidContainer} from './StoryScreens.styles';
+import {ButtonsContainer, ScreenMidContainer} from './StoryScreens.styles';
 import {ThreeStars} from '../../components/Elements/ThreeStars/ThreeStars';
 import {Linking, Platform} from 'react-native';
 import {BaseCard} from '../../components/Cards/BaseCard';
@@ -16,6 +16,7 @@ import {MIXCLOUD_URL} from '../../constants/external-urls';
 import useAudio from '../../hooks/useAudio';
 import {useNavigation} from '@react-navigation/native';
 import {GameNavigationType} from '../../types/navigation-types';
+import {ClearButton} from '../../components/Buttons/ClearButton';
 
 type ParamsType = {
   params: ChapterType;
@@ -50,6 +51,11 @@ export const ChapterScreen: React.FC<Props> = ({route}) => {
     navigation.goBack();
   };
 
+  const handleStartDance = async () => {
+    await handleUnloadSound();
+    navigation.navigate('DanceScreen', {...route.params});
+  };
+
   const handleMinimizeApp = () => {
     Linking.openURL(MIXCLOUD_URL);
     // if (Platform.OS === 'ios') return Linking.openURL('music://');
@@ -59,13 +65,16 @@ export const ChapterScreen: React.FC<Props> = ({route}) => {
     <Page>
       <NotifyScreensHeader title="Ready?" />
       <ScreenMidContainer>
-        <ThreeStars />
-        <Spacer h={30} />
         <BaseFont>
-          You've got to record at least {targetBodyMoves} body movements to get
-          past this chapter and you've only got{' '}
-          {millisecondsToMinutes(targetTimeInMillis)} minutes for to complete
-          it! Good luck!
+          You've got to record at least{' '}
+          <BaseFont variant="bold-paragraph" color={theme.COLORS.yellow}>
+            {targetBodyMoves}
+          </BaseFont>{' '}
+          body movements to get past this chapter and you've only got{' '}
+          <BaseFont variant="bold-paragraph" color={theme.COLORS.yellow}>
+            {millisecondsToMinutes(targetTimeInMillis)}
+          </BaseFont>{' '}
+          minutes for to complete it! Good luck!
         </BaseFont>
         <Spacer h={30} />
         <ThreeStars />
@@ -91,7 +100,18 @@ export const ChapterScreen: React.FC<Props> = ({route}) => {
           </BaseFont>
         </BaseCard>
       </ScreenMidContainer>
-      <BaseButton variant="red" text="Quit Story" onPress={handleQuitChapter} />
+      <ButtonsContainer>
+        <BaseButton
+          variant="red"
+          text="Dance Now!"
+          onPress={handleStartDance}
+        />
+        <ClearButton
+          variant="gray"
+          text="Quit Story"
+          onPress={handleQuitChapter}
+        />
+      </ButtonsContainer>
     </Page>
   );
 };

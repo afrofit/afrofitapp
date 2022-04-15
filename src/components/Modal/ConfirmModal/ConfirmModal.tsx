@@ -24,7 +24,7 @@ export const ConfirmModal: React.FC<Props> = ({
   return (
     <Modal title={title}>
       <BaseFont variant="paragraph">{content}</BaseFont>
-      <Spacer h={40} />
+      <Spacer h={20} />
       <BaseButton text={confirm} onPress={onConfirm} />
       <BaseButton text={cancel} variant="red" onPress={onCancel} />
     </Modal>

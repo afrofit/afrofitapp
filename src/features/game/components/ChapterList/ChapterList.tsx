@@ -42,8 +42,8 @@ const ChapterListSection: React.FC<Props> = ({triggerNavigate, chapters}) => {
   return (
     <>
       {chapters.length ? (
-        <BaseFont variant="small-caps" color={theme.COLORS.gray_400}>
-          Stories You can play
+        <BaseFont variant="small-caps" color={theme.COLORS.gray_300}>
+          Chapters You can play
         </BaseFont>
       ) : null}
       <Spacer />

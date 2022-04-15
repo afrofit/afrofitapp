@@ -20,6 +20,7 @@ export const OverVideoContainer = styled.View<Props>`
 export const ButtonsContainer = styled.View<Props>`
   /* justify-self: flex-end; */
   margin-top: 20px;
+  align-items: center;
 `;
 
 export const VideoContentsContainer = styled.View<Props>`

@@ -26,6 +26,15 @@ export const NumberLarge = styled.Text<Props>`
   color: ${props => (props.color ? props.color : theme.COLORS.white)};
 `;
 
+export const NumberBigBold = styled.Text<Props>`
+  font-size: 55px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-right: 5px;
+  color: ${props => (props.color ? props.color : theme.COLORS.white)};
+`;
+
 export const NumberSmall = styled.Text<Props>`
   font-size: 30px;
   font-weight: 600;
