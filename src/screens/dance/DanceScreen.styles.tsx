@@ -15,5 +15,3 @@ export const TargetsContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-
-export const TextContainer = styled.View``;

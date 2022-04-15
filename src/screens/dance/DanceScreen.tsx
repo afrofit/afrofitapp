@@ -18,14 +18,12 @@ import {GameNavigationType} from '../../types/navigation-types';
 import {ChapterType} from '../../models/Chapter';
 import {ConfirmModal} from '../../components/Modal/ConfirmModal/ConfirmModal';
 import {IconButton} from '../../components/Buttons/IconButton';
-import {
-  TargetsContainer,
-  TextContainer,
-  VideoStatusBackground,
-} from './DanceScreen.styles';
+import {TargetsContainer, VideoStatusBackground} from './DanceScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {OneStar} from '../../components/Elements/OneStar/OneStar';
 import {getCurrentStory} from '../../features/game/slices/content.slice';
+import {millisecondsToMinutes} from 'date-fns';
+import useBodyMovements from '../../hooks/useBodyMovements';
 
 type GameStatusType = 'started' | 'paused' | 'completed';
 
@@ -46,16 +44,26 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
 
   const videoBackgroundRef = React.useRef<any>(null);
 
-  const [disableButtons, setDisableButtons] = React.useState<boolean>(true);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [gameStatus, setGameStatus] = React.useState<GameStatusType>('started');
 
-  const {contentStoryId, completed, started, videoUrl, chapterOrder} =
-    route.params;
+  const {
+    contentStoryId,
+    videoUrl,
+    chapterOrder,
+    targetBodyMoves,
+    targetTimeInMillis,
+  } = route.params;
 
   const currentStory = useSelector(getCurrentStory);
-  console.dir(currentStory);
-  //   console.log(title, contentStoryId);
+
+  const {bodyMovementCount, startMoving, stopMoving, pedometerIsAvailable} =
+    useBodyMovements();
+
+  React.useEffect(() => {
+    // startMoving();
+    console.log('Pedometer', pedometerIsAvailable);
+  }, []);
 
   React.useEffect(() => {
     if (gameStatus === 'paused') {
@@ -124,6 +132,8 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     return `${storyTitle} // ${chapterTitle}`;
   };
 
+  const targetTime = millisecondsToMinutes(targetTimeInMillis);
+
   return (
     <>
       {showModal && (
@@ -141,16 +151,16 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
           <PageHeaderGeneral title={screenTitle()} />
           <VideoContentsContainer>
             <TargetsContainer>
-              <BaseFont variant="bold-paragraph">17000 STEPS</BaseFont>
+              <BaseFont variant="bold-paragraph">
+                {targetBodyMoves} STEPS
+              </BaseFont>
               <OneStar />
-              <BaseFont variant="bold-paragraph">90 MINS</BaseFont>
+              <BaseFont variant="bold-paragraph">{targetTime} MINS</BaseFont>
             </TargetsContainer>
             <Spacer />
             <VideoStatusBackground>
-              {/* <ThreeStars />
-              <Spacer /> */}
               <BaseFont variant="small-caps">Steps Taken</BaseFont>
-              <BaseFont variant="number-big-bold">{'13500'}</BaseFont>
+              <BaseFont variant="number-big-bold">{bodyMovementCount}</BaseFont>
               <Spacer h={5} />
               <ThreeStars />
               <Spacer h={10} />
@@ -166,7 +176,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
         loop={true}
         videoURL={videoUrl}
         onVideoFinished={() => console.log('Video finished!')}
-        onVideoHalfwayFinished={() => setDisableButtons(false)}
+        onVideoHalfwayFinished={() => console.log('Video halfway finished')}
         ref={videoBackgroundRef}
       />
     </>
