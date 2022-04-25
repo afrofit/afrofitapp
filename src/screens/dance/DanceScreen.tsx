@@ -10,7 +10,6 @@ import {
   VideoContentsContainer,
 } from './StoryScreens.styles';
 import Spacer from '../../components/Library/Spacer';
-import {BaseButton} from '../../components/Buttons/BaseButton';
 import {ThreeStars} from '../../components/Elements/ThreeStars/ThreeStars';
 
 import {useNavigation} from '@react-navigation/native';
@@ -18,12 +17,17 @@ import {GameNavigationType} from '../../types/navigation-types';
 import {ChapterType} from '../../models/Chapter';
 import {ConfirmModal} from '../../components/Modal/ConfirmModal/ConfirmModal';
 import {IconButton} from '../../components/Buttons/IconButton';
-import {TargetsContainer, VideoStatusBackground} from './DanceScreen.styles';
+import {
+  DanceStatsContainer,
+  VideoStatsContainer,
+  VideoStatusBackground,
+} from './DanceScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {OneStar} from '../../components/Elements/OneStar/OneStar';
 import {getCurrentStory} from '../../features/game/slices/content.slice';
 import {millisecondsToMinutes} from 'date-fns';
-import useBodyMovements from '../../hooks/useBodyMovements';
+import useDanceSession from '../../hooks/useDanceSession';
+import {theme} from '../../theme/theme';
 
 type GameStatusType = 'started' | 'paused' | 'completed';
 
@@ -57,25 +61,45 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
 
   const currentStory = useSelector(getCurrentStory);
 
-  const {bodyMovementCount, startMoving, stopMoving, pedometerIsAvailable} =
-    useBodyMovements();
+  const {
+    startMoving,
+    stopMoving,
+    pedometerIsAvailable,
+    adjustedCount,
+    stepCount,
+    countRemainder,
+    finalTime,
+    setTimer,
+  } = useDanceSession(targetBodyMoves);
 
   React.useEffect(() => {
-    startMoving();
+    setTimer(targetTimeInMillis);
+    setGameStatus('started');
     console.log('Pedometer', pedometerIsAvailable);
   }, []);
 
   React.useEffect(() => {
     if (gameStatus === 'paused') {
       setShowModal(true);
+      stopMoving();
       handlePauseVideo();
     } else if (gameStatus === 'started') {
       setShowModal(false);
+      startMoving();
       handlePlayVideo();
     } else if (gameStatus === 'completed') {
+      stopMoving();
       _getGameFinishType();
     }
+    return () => {
+      stopMoving();
+    };
   }, [gameStatus]);
+
+  React.useEffect(() => {
+    console.log('Adjusted Body Movement', adjustedCount);
+    console.log('Body Movement', stepCount);
+  }, [adjustedCount]);
 
   const _getGameFinishType = () => {
     // This function gets the game finish type
@@ -149,22 +173,40 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
       <SafeAreaView>
         <OverVideoContainer alignment="space-between">
           <PageHeaderGeneral title={screenTitle()} />
+          <BaseFont variant="bold-paragraph">{finalTime} Minutes Left</BaseFont>
           <VideoContentsContainer>
-            <TargetsContainer>
-              <BaseFont variant="bold-paragraph">
-                {targetBodyMoves} STEPS
-              </BaseFont>
-              <OneStar />
-              <BaseFont variant="bold-paragraph">{targetTime} MINS</BaseFont>
-            </TargetsContainer>
+            <Spacer h={10} />
+            <ThreeStars />
             <Spacer />
             <VideoStatusBackground>
-              <BaseFont variant="small-caps">Steps Taken</BaseFont>
-              <BaseFont variant="number-big-bold">{bodyMovementCount}</BaseFont>
-              <Spacer h={5} />
-              <ThreeStars />
-              <Spacer h={10} />
-              <BaseFont variant="bold-paragraph">{'30 Minutes Left'}</BaseFont>
+              <VideoStatsContainer>
+                <DanceStatsContainer left>
+                  <BaseFont
+                    variant="small-paragraph"
+                    color={theme.COLORS.gray_300}>
+                    current steps {' | '}
+                  </BaseFont>
+                  <Spacer h={5} />
+                  <BaseFont
+                    variant="number-big-bold"
+                    color={theme.COLORS.yellow}>
+                    {/* {stepCount}:{countRemainder} */}
+                    2000
+                  </BaseFont>
+                </DanceStatsContainer>
+                <DanceStatsContainer>
+                  <BaseFont
+                    variant="small-paragraph"
+                    color={theme.COLORS.gray_300}>
+                    {' | '} steps left
+                  </BaseFont>
+                  <Spacer h={5} />
+                  <BaseFont variant="number-large">
+                    {/* {stepCount}:{countRemainder} */}
+                    2000
+                  </BaseFont>
+                </DanceStatsContainer>
+              </VideoStatsContainer>
             </VideoStatusBackground>
           </VideoContentsContainer>
           <ButtonsContainer>
@@ -175,8 +217,8 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
       <VideoBackground
         loop={true}
         videoURL={videoUrl}
-        onVideoFinished={() => console.log('Video finished!')}
-        onVideoHalfwayFinished={() => console.log('Video halfway finished')}
+        onVideoFinished={() => null}
+        onVideoHalfwayFinished={() => null}
         ref={videoBackgroundRef}
       />
     </>

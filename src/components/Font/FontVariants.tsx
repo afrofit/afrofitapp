@@ -27,8 +27,8 @@ export const NumberLarge = styled.Text<Props>`
 `;
 
 export const NumberBigBold = styled.Text<Props>`
-  font-size: 55px;
-  font-weight: 700;
+  font-size: 45px;
+  font-weight: 300;
   letter-spacing: 1px;
   text-align: center;
   margin-right: 5px;
