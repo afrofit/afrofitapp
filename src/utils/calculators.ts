@@ -1,3 +1,5 @@
+import {millisecondsToMinutes} from 'date-fns';
+
 export type DanceDurationReturnType = null | 'minutes' | 'millis';
 
 export const calculateDanceDuration = (
@@ -45,4 +47,9 @@ export const calculateCaloriesBurned = (bodyMovesCount: number) => {
   );
 
   return bodyMovesCount * CAL_BURN_RATE_PER_MOVE;
+};
+
+export const calculateDanceTime = (timeMS: number) => {
+  const result = millisecondsToMinutes(timeMS);
+  return result;
 };

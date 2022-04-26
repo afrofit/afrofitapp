@@ -23,11 +23,11 @@ import {
   VideoStatusBackground,
 } from './DanceScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {OneStar} from '../../components/Elements/OneStar/OneStar';
 import {getCurrentStory} from '../../features/game/slices/content.slice';
 import {millisecondsToMinutes} from 'date-fns';
 import useDanceSession from '../../hooks/useDanceSession';
 import {theme} from '../../theme/theme';
+import useInterval from '../../hooks/useInterval';
 
 type GameStatusType = 'started' | 'paused' | 'completed';
 
@@ -44,36 +44,44 @@ interface Props {
 export const DanceScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation<GameNavigationType>();
 
-  const dispatch = useDispatch();
-
-  const videoBackgroundRef = React.useRef<any>(null);
-
-  const [showModal, setShowModal] = React.useState<boolean>(false);
-  const [gameStatus, setGameStatus] = React.useState<GameStatusType>('started');
-
   const {
     contentStoryId,
     videoUrl,
     chapterOrder,
     targetBodyMoves,
     targetTimeInMillis,
+    timeSpentInMillis,
   } = route.params;
 
+  const dispatch = useDispatch();
+
+  const videoBackgroundRef = React.useRef<any>(null);
+
+  const [showModal, setShowModal] = React.useState<boolean>(false);
+  const [gameStatus, setGameStatus] = React.useState<GameStatusType>('started');
+  const [timeDanced, setTimeDanced] = React.useState(
+    targetTimeInMillis - timeSpentInMillis || targetTimeInMillis,
+  );
+  const [delay, setDelay] = React.useState<number | null>(1000);
+
   const currentStory = useSelector(getCurrentStory);
+
+  /** Timer System */
+  if (delay) {
+    useInterval(() => {
+      setTimeDanced(timeDanced - 1000);
+    }, delay as number);
+  }
 
   const {
     startMoving,
     stopMoving,
     pedometerIsAvailable,
     adjustedCount,
-    stepCount,
     countRemainder,
-    finalTime,
-    setTimer,
-  } = useDanceSession(targetBodyMoves);
+  } = useDanceSession(targetBodyMoves, targetTimeInMillis);
 
   React.useEffect(() => {
-    setTimer(targetTimeInMillis);
     setGameStatus('started');
     console.log('Pedometer', pedometerIsAvailable);
   }, []);
@@ -89,6 +97,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
       handlePlayVideo();
     } else if (gameStatus === 'completed') {
       stopMoving();
+      setDelay(null);
       _getGameFinishType();
     }
     return () => {
@@ -96,16 +105,35 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     };
   }, [gameStatus]);
 
+  /** Did user finish body moves in time? */
+
   React.useEffect(() => {
     console.log('Adjusted Body Movement', adjustedCount);
-    console.log('Body Movement', stepCount);
+    if (adjustedCount === targetBodyMoves) {
+      console.log('Done!');
+      return setGameStatus('completed');
+    }
   }, [adjustedCount]);
+
+  /** Did user run out of time before finishing body moves? */
+
+  React.useEffect(() => {
+    if (timeDanced <= 0) {
+      console.log('The time is done!');
+      return setGameStatus('completed');
+    }
+  }, [timeDanced]);
 
   const _getGameFinishType = () => {
     // This function gets the game finish type
+    // By checking conditions
     // then it calls handleGameFinished with the right status type
     handleGameFinished('failed');
   };
+
+  const handleGamePaused = () => {};
+  const handleGameStarted = () => {};
+  const handleGameCompleted = () => {};
 
   const handlePauseVideo = () => {
     videoBackgroundRef.current?.pauseVideo();
@@ -120,6 +148,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   };
 
   const handleQuitDance = async () => {
+    setDelay(null);
     await videoBackgroundRef.current?.unmountVideo();
     // save progress here
     // Then Dispatch save game
@@ -156,7 +185,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     return `${storyTitle} // ${chapterTitle}`;
   };
 
-  const targetTime = millisecondsToMinutes(targetTimeInMillis);
+  const parsedTimeDanced = millisecondsToMinutes(timeDanced);
 
   return (
     <>
@@ -173,7 +202,9 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
       <SafeAreaView>
         <OverVideoContainer alignment="space-between">
           <PageHeaderGeneral title={screenTitle()} />
-          <BaseFont variant="bold-paragraph">{finalTime} Minutes Left</BaseFont>
+          <BaseFont variant="bold-paragraph">
+            {parsedTimeDanced} Minute{parsedTimeDanced > 1 ? 's' : ''} Left
+          </BaseFont>
           <VideoContentsContainer>
             <Spacer h={10} />
             <ThreeStars />
@@ -184,27 +215,23 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
                   <BaseFont
                     variant="small-paragraph"
                     color={theme.COLORS.gray_300}>
-                    current steps {' | '}
+                    Current moves
                   </BaseFont>
                   <Spacer h={5} />
                   <BaseFont
                     variant="number-big-bold"
                     color={theme.COLORS.yellow}>
-                    {/* {stepCount}:{countRemainder} */}
-                    2000
+                    {adjustedCount}
                   </BaseFont>
                 </DanceStatsContainer>
                 <DanceStatsContainer>
                   <BaseFont
                     variant="small-paragraph"
                     color={theme.COLORS.gray_300}>
-                    {' | '} steps left
+                    Moves target
                   </BaseFont>
                   <Spacer h={5} />
-                  <BaseFont variant="number-large">
-                    {/* {stepCount}:{countRemainder} */}
-                    2000
-                  </BaseFont>
+                  <BaseFont variant="number-large">{countRemainder}</BaseFont>
                 </DanceStatsContainer>
               </VideoStatsContainer>
             </VideoStatusBackground>

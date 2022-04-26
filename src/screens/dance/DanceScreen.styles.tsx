@@ -32,6 +32,6 @@ export const TargetsContainer = styled.View`
 export const DanceStatsContainer = styled.View<Props>`
   /* width: 45%; */
   justify-content: center;
-  align-items: ${props => (props.left ? 'flex-end' : 'flex-start')};
+  align-items: center;
   /* background-color: red; */
 `;
