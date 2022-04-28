@@ -45,13 +45,13 @@ export const SignupScreen: React.FC<Props> = ({}) => {
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = data => {
+    Keyboard.dismiss();
     setShowModal(true);
     setFormData(data);
   };
 
   const handleFormSubmit = async () => {
     if (formData) {
-      Keyboard.dismiss();
       dispatch(createAccountThunk(formData));
       setShowModal(false);
     }

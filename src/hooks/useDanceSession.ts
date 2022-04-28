@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Pedometer} from 'expo-sensors';
 import {Subscription} from 'expo-sensors/build/Pedometer';
 
-const useDanceSession = (stepTarget: number, targetTimeInMillis: number) => {
+const useDanceSession = (stepTarget: number) => {
   const [stepCount, setStepCount] = React.useState<number>(0);
   const [countRemainder, setCountRemainder] =
     React.useState<number>(stepTarget);
@@ -10,7 +10,6 @@ const useDanceSession = (stepTarget: number, targetTimeInMillis: number) => {
   const [adjustedCount, setAdjustedCount] = React.useState<number>(0);
   const [pedometerIsAvailable, setPedometerIsAvailable] =
     React.useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = React.useState<number>(targetTimeInMillis);
 
   React.useEffect(() => {
     Pedometer.isAvailableAsync().then(result => {
@@ -43,7 +42,6 @@ const useDanceSession = (stepTarget: number, targetTimeInMillis: number) => {
   return {
     startMoving,
     stopMoving,
-    timeLeft,
     stepsFinished,
     adjustedCount,
     pedometerIsAvailable,

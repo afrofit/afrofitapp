@@ -4224,6 +4224,11 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+format-duration@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/format-duration/-/format-duration-2.0.0.tgz#334d6c7e17c25e40ac7d5b80f9e7fb9a02cbc0b9"
+  integrity sha512-ARqJ9qXm71pw3SGAY7bibf8lRLvltOXLjWjzzR3UrUjHu1zdeYpA/Z+u+ltdhrfRa440OjEsHNzdmuZViqqQWQ==
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -8237,6 +8242,11 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
+
+usehooks-ts@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-2.5.1.tgz#25fda2a5ada0fb9f6ccba5f7b56eb6ba4a1a4042"
+  integrity sha512-vGIl/r7SMey3Uwe/YykLTJ5AmrlBe02MwQxsUBxNWDmfegEdHXXQaJ2VoOEayKW85Zwr+NyIhfVG+xrQYjtXVg==
 
 util-deprecate@~1.0.1:
   version "1.0.2"

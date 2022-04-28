@@ -53,3 +53,18 @@ export const calculateDanceTime = (timeMS: number) => {
   const result = millisecondsToMinutes(timeMS);
   return result;
 };
+
+const padToTwoDigits = (num: number) => num.toString().padStart(2, '0');
+
+export const parseMilliseconds = (milliseconds: number) => {
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+
+  seconds = seconds % 60;
+
+  // minutes = seconds >= 30 ? minutes + 1 : minutes;
+
+  // minutes = minutes % 60;
+
+  return `${padToTwoDigits(minutes)}:${padToTwoDigits(seconds)}`;
+};

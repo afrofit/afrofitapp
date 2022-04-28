@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {useCountdown} from 'usehooks-ts';
+import timeFormatter from 'format-duration';
 
 import VideoBackground from '../../components/Video/VideoBackground';
 import PageHeaderGeneral from '../../components/Headers/PageHeaderGeneral/PageHeaderGeneral';
@@ -14,7 +16,6 @@ import {ThreeStars} from '../../components/Elements/ThreeStars/ThreeStars';
 
 import {useNavigation} from '@react-navigation/native';
 import {GameNavigationType} from '../../types/navigation-types';
-import {ChapterType} from '../../models/Chapter';
 import {ConfirmModal} from '../../components/Modal/ConfirmModal/ConfirmModal';
 import {IconButton} from '../../components/Buttons/IconButton';
 import {
@@ -24,18 +25,15 @@ import {
 } from './DanceScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCurrentStory} from '../../features/game/slices/content.slice';
-import {millisecondsToMinutes} from 'date-fns';
 import useDanceSession from '../../hooks/useDanceSession';
 import {theme} from '../../theme/theme';
-import useInterval from '../../hooks/useInterval';
-
-type GameStatusType = 'started' | 'paused' | 'completed';
-
-type GameFinishType = 'story_completed' | 'success' | 'failed';
-
-type ParamsType = {
-  params: ChapterType;
-};
+import {
+  ParamsType,
+  GameStatusType,
+  GameFinishType,
+  GameSaveType,
+} from './types';
+import {screenTitle} from './generators';
 
 interface Props {
   route: ParamsType;
@@ -62,16 +60,15 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   const [timeDanced, setTimeDanced] = React.useState(
     targetTimeInMillis - timeSpentInMillis || targetTimeInMillis,
   );
-  const [delay, setDelay] = React.useState<number | null>(1000);
+
+  const [count, {start: startTimer, stop: stopTimer, reset: resetTimer}] =
+    useCountdown({
+      seconds: timeDanced / 1000,
+      interval: 1000,
+      isIncrement: false,
+    });
 
   const currentStory = useSelector(getCurrentStory);
-
-  /** Timer System */
-  if (delay) {
-    useInterval(() => {
-      setTimeDanced(timeDanced - 1000);
-    }, delay as number);
-  }
 
   const {
     startMoving,
@@ -79,26 +76,21 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     pedometerIsAvailable,
     adjustedCount,
     countRemainder,
-  } = useDanceSession(targetBodyMoves, targetTimeInMillis);
+  } = useDanceSession(targetBodyMoves);
 
   React.useEffect(() => {
     setGameStatus('started');
-    console.log('Pedometer', pedometerIsAvailable);
+    startTimer();
+    // console.log('Pedometer', pedometerIsAvailable);
   }, []);
 
   React.useEffect(() => {
     if (gameStatus === 'paused') {
-      setShowModal(true);
-      stopMoving();
-      handlePauseVideo();
+      handleGamePaused();
     } else if (gameStatus === 'started') {
-      setShowModal(false);
-      startMoving();
-      handlePlayVideo();
+      handleGameStarted();
     } else if (gameStatus === 'completed') {
-      stopMoving();
-      setDelay(null);
-      _getGameFinishType();
+      handleGameCompleted();
     }
     return () => {
       stopMoving();
@@ -125,21 +117,45 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   }, [timeDanced]);
 
   const _getGameFinishType = () => {
-    // This function gets the game finish type
-    // By checking conditions
-    // then it calls handleGameFinished with the right status type
-    handleGameFinished('failed');
+    let status: GameFinishType;
+    if ('story_completed') {
+      status = 'story_completed';
+    } else if ('failed') {
+      status = 'failed';
+    } else if ('interrupted') {
+      status = 'interrupted';
+    } else {
+      status = 'success';
+    }
+
+    return {status};
   };
 
-  const handleGamePaused = () => {};
-  const handleGameStarted = () => {};
-  const handleGameCompleted = () => {};
-
-  const handlePauseVideo = () => {
+  /** Game State Controls */
+  const handleGamePaused = () => {
+    setShowModal(true);
+    stopMoving();
+    stopTimer();
     videoBackgroundRef.current?.pauseVideo();
+
+    return;
   };
-  const handlePlayVideo = () => {
+  const handleGameStarted = () => {
+    setShowModal(false);
+    startTimer();
+    startMoving();
     videoBackgroundRef.current?.playVideo();
+
+    return;
+  };
+  const handleGameCompleted = () => {
+    stopMoving();
+    const {status} = _getGameFinishType();
+    if (status) {
+      return handleSaveGame('moves_finished');
+    } else {
+      return handleSaveGame('user_quit');
+    }
   };
 
   const handleInterruptDance = async () => {
@@ -148,44 +164,14 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   };
 
   const handleQuitDance = async () => {
-    setDelay(null);
     await videoBackgroundRef.current?.unmountVideo();
-    // save progress here
+    // save progress so far here
     // Then Dispatch save game
     // which means updating current chapter and current story
     navigation.navigate('StoryScreen', {contentStoryId});
   };
 
-  const handleGameFinished = async (finishType: GameFinishType) => {
-    switch (finishType) {
-      case 'failed':
-        // do sumthing
-        break;
-
-      case 'story_completed':
-        // do sumthing
-        break;
-      case 'success':
-        // do sumthing
-        break;
-      default:
-        return null;
-    }
-    // In here, we will compare times and bodyMovements to determine
-  };
-
-  const handleSaveGame = async () => {};
-
-  // Generators
-  const screenTitle = () => {
-    const storyTitle = currentStory?.title
-      ? currentStory.title
-      : 'Loading name...';
-    const chapterTitle = 'Chapter ' + chapterOrder;
-    return `${storyTitle} // ${chapterTitle}`;
-  };
-
-  const parsedTimeDanced = millisecondsToMinutes(timeDanced);
+  const handleSaveGame = async (type: GameSaveType) => {};
 
   return (
     <>
@@ -201,9 +187,12 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
       )}
       <SafeAreaView>
         <OverVideoContainer alignment="space-between">
-          <PageHeaderGeneral title={screenTitle()} />
-          <BaseFont variant="bold-paragraph">
-            {parsedTimeDanced} Minute{parsedTimeDanced > 1 ? 's' : ''} Left
+          <PageHeaderGeneral title={screenTitle(currentStory, chapterOrder)} />
+          <BaseFont variant="small-paragraph" color={theme.COLORS.yellow}>
+            Time left
+          </BaseFont>
+          <BaseFont variant="number-big-bold">
+            {timeFormatter(count * 1000, {leading: true})}
           </BaseFont>
           <VideoContentsContainer>
             <Spacer h={10} />
