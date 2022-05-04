@@ -35,7 +35,7 @@ export const DanceResultsScreen: React.FC<Props> = ({route}) => {
 
   const currentChapter = useSelector(getCurrentStoryChapter);
 
-  console.log('CurrChapt', currentChapter);
+  // console.log('CurrChapt', currentChapter);
 
   const {
     bodyMoves,
@@ -48,12 +48,10 @@ export const DanceResultsScreen: React.FC<Props> = ({route}) => {
 
   const videoBackgroundRef = React.useRef<any>(null);
 
-  const handleExitStory = async () => {};
-
   const handleProgressStory = async (type: UserProgressionType) => {
     switch (type) {
       case 'continue':
-        handleRestartChapter();
+        handleContinueStory();
         break;
       case 'restart':
         handleRestartChapter();
@@ -62,9 +60,19 @@ export const DanceResultsScreen: React.FC<Props> = ({route}) => {
         return null;
     }
   };
+  const handleExitGame = async () => {
+    navigation.navigate('GameRoot');
+  };
+
+  const handleContinueStory = async () => {
+    if (currentChapter) {
+      navigation.navigate('StoryScreen', {
+        contentStoryId: currentChapter?.contentStoryId,
+      });
+    }
+  };
 
   const handleRestartChapter = async () => {
-    console.log('Current Chpaters', currentChapter);
     return currentChapter
       ? navigation.navigate('ChapterScreen', {...currentChapter})
       : null;
@@ -111,11 +119,7 @@ export const DanceResultsScreen: React.FC<Props> = ({route}) => {
               onPress={() => handleProgressStory(PROGRESSION_TYPE)}
               disabled={false}
             />
-            <BaseButton
-              disabled={false}
-              text="Exit Story"
-              onPress={handleExitStory}
-            />
+            <BaseButton disabled={false} text="Exit" onPress={handleExitGame} />
           </ButtonsContainer>
         </OverVideoContainer>
       </SafeAreaView>

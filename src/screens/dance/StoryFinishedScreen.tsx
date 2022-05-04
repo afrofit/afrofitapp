@@ -38,32 +38,39 @@ export const StoryFinishedScreen: React.FC<Props> = ({route}) => {
     successVideo,
   } = route.params;
 
+  console.log(route.params);
+
   const videoBackgroundRef = React.useRef<any>(null);
 
-  const handleContinue = async () => {};
+  const handleContinue = async () => {
+    navigation.navigate('GameRoot');
+  };
 
   return (
     <>
       <SafeAreaView>
         <OverVideoContainer alignment="space-between">
-          <PageHeaderGeneral title="'Grats!!" />
+          <PageHeaderGeneral title="Congrats!!" />
           <VideoContentsContainer>
-            <ThreeStars />
-            <Spacer />
-            <BaseFont>{storySuccessText}</BaseFont>
-            <BaseFont>
-              You managed {totalTargetBodyMoves} dance moves in
-              {millisecondsToMinutes(totalTargetUserTimeInMillis as number)}
+            <BaseFont variant="bold-paragraph">
+              {totalTargetBodyMoves} moves in{' '}
+              {millisecondsToMinutes(totalTargetUserTimeInMillis as number)}{' '}
               minutes!
             </BaseFont>
+            <Spacer />
+            <ThreeStars />
+            <Spacer />
+            <BaseFont>{storySuccessText as string} </BaseFont>
+
             <Spacer />
             <ThreeStars />
           </VideoContentsContainer>
           <ButtonsContainer>
             <BaseButton
               disabled={false}
-              text="Exit Story"
+              text="Finish"
               onPress={handleContinue}
+              variant="red"
             />
           </ButtonsContainer>
         </OverVideoContainer>

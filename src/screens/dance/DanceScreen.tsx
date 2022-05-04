@@ -24,7 +24,10 @@ import {
   VideoStatusBackground,
 } from './DanceScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCurrentStory} from '../../features/game/slices/content.slice';
+import {
+  getCurrentStory,
+  getCurrentStoryChapters,
+} from '../../features/game/slices/content.slice';
 import useDanceSession from '../../hooks/useDanceSession';
 import {theme} from '../../theme/theme';
 import {
@@ -57,19 +60,19 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
 
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [gameStatus, setGameStatus] = React.useState<GameStatusType>('started');
-  const [timeDanced, setTimeDanced] = React.useState(
+  const [timeLeftToDance, setTimeLeftToDance] = React.useState(
     targetTimeInMillis - timeSpentInMillis || targetTimeInMillis,
   );
 
   const [count, {start: startTimer, stop: stopTimer, reset: resetTimer}] =
     useCountdown({
-      seconds: timeDanced / 1000,
+      seconds: timeLeftToDance / 1000,
       interval: 1000,
       isIncrement: false,
     });
 
   const currentStory = useSelector(getCurrentStory);
-  console.log('Current Story', currentStory);
+  const currentChapters = useSelector(getCurrentStoryChapters);
 
   const {
     startMoving,
@@ -77,6 +80,8 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     pedometerIsAvailable,
     stepCount,
     countRemainder,
+    stepCountSoFar,
+    stepsFinished,
   } = useDanceSession(targetBodyMoves);
 
   React.useEffect(() => {
@@ -97,15 +102,16 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     };
   }, [gameStatus]);
 
+  /** END GAME */
   /** Did user finish body moves in time? */
 
   React.useEffect(() => {
     console.log('Adjusted Body Movement', stepCount);
-    if (stepCount === targetBodyMoves) {
+    if (stepsFinished) {
       console.log('Done!');
       return setGameStatus('completed');
     }
-  }, [stepCount]);
+  }, [stepCount, stepsFinished]);
 
   /** Did user run out of time before finishing body moves? */
 
@@ -116,19 +122,25 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     }
   }, [count]);
 
+  /** END GAME FINISHED */
+
   const _getGameFinishType = (): {status: GameFinishType} => {
     let status: GameFinishType;
-    if ('story_completed') {
-      status = 'story_completed';
-    } else if ('failed') {
-      status = 'failed';
-    } else if ('interrupted') {
+    if (!stepsFinished && count <= 0) {
       status = 'interrupted';
-    } else {
+    } else if (
+      stepsFinished &&
+      count > 0 &&
+      chapterOrder === currentChapters.length
+    ) {
+      status = 'story_completed';
+    } else if (stepsFinished && count > 0) {
       status = 'success';
+    } else {
+      status = 'failed';
     }
-    status = 'success';
-
+    // status = 'success';
+    console.log('Status', status);
     return {status};
   };
 
@@ -149,26 +161,47 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
 
     return;
   };
-  const handleGameCompleted = () => {
+  const handleGameCompleted = async () => {
     stopMoving();
     stopTimer();
     const {status} = _getGameFinishType();
     switch (status) {
       case 'success':
-        handleSaveGame('moves_finished');
+        await handleSaveGame('moves_finished');
         navigation.navigate('ResultsScreen', {
           type: 'success',
           targetTimeInMillis,
-          timeDancedInMillis: 0,
+          timeDancedInMillis: targetTimeInMillis,
           targetBodyMoves,
-          bodyMoves: 0,
+          bodyMoves: targetBodyMoves,
           videoUrl: currentStory?.successVideo || '',
         });
         break;
       case 'failed':
-        return handleSaveGame('time_finished');
+        await handleSaveGame('time_finished');
+        navigation.navigate('ResultsScreen', {
+          type: 'fail',
+          targetTimeInMillis,
+          timeDancedInMillis: 0,
+          targetBodyMoves,
+          bodyMoves: 0,
+          videoUrl: currentStory?.failVideo || '',
+        });
+        break;
+      case 'story_completed':
+        await handleSaveGame('moves_finished');
+        navigation.navigate('StoryFinish', {
+          storySuccessText: currentStory?.storySuccessText || '',
+          successVideo: currentStory?.successVideo || '',
+          totalTargetBodyMoves: currentStory?.totalTargetBodyMoves || 0,
+          totalTargetUserTimeInMillis:
+            currentStory?.totalTargetUserTimeInMillis || 0,
+        });
+        break;
       case 'interrupted':
-        return handleSaveGame('user_quit');
+        await handleSaveGame('user_quit');
+        return handleQuitDance();
+      // navigation.navigate('StoryScreen', {contentStoryId});
       default:
         return null;
     }
@@ -208,7 +241,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
         <ConfirmModal
           title="Are you sure?"
           onCancel={() => setGameStatus('started')}
-          onConfirm={handleQuitDance}
+          onConfirm={handleGameCompleted}
           content="If you quit now, you will lose your points?"
           confirm="Yes, quit"
           cancel="No, continue"
@@ -233,7 +266,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
                   <BaseFont
                     variant="small-paragraph"
                     color={theme.COLORS.gray_300}>
-                    Current moves
+                    Moves count {stepCountSoFar}
                   </BaseFont>
                   <Spacer h={5} />
                   <BaseFont
@@ -246,7 +279,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
                   <BaseFont
                     variant="small-paragraph"
                     color={theme.COLORS.gray_300}>
-                    Moves target
+                    Moves left
                   </BaseFont>
                   <Spacer h={5} />
                   <BaseFont variant="number-large">{countRemainder}</BaseFont>
