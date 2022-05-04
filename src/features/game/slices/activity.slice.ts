@@ -13,10 +13,10 @@ const initialState: ActivityState = {
     bodyMoves: 0,
   },
   userStats: {
-    totalCaloriesBurned: 10,
-    totalBodyMoves: 70,
-    totalTimeDancedInMilliseconds: 13,
-    totalDaysActive: 89,
+    totalCaloriesBurned: 0,
+    totalBodyMoves: 0,
+    totalTimeDancedInMilliseconds: 0,
+    totalDaysActive: 0,
   },
   contentUpdated: false,
 };

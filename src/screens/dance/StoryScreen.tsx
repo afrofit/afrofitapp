@@ -12,6 +12,7 @@ import ChapterListSection from '../../features/game/components/ChapterList/Chapt
 import {
   getCurrentStory,
   getCurrentStoryChapters,
+  setCurrentChapter,
 } from '../../features/game/slices/content.slice';
 import {fetchAllStories} from '../../features/game/thunks/fetch-all-stories-thunk';
 import {fetchStoryDetails} from '../../features/game/thunks/fetch-story-details-thunk';
@@ -46,6 +47,7 @@ export const StoryScreen: React.FC<Props> = ({route}) => {
   }, [chapters]);
 
   const goToChapter = async (chapter: ChapterType) => {
+    dispatch(setCurrentChapter(chapter));
     return navigation.navigate('ChapterScreen', {...chapter});
   };
 

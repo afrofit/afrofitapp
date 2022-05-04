@@ -69,18 +69,18 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     });
 
   const currentStory = useSelector(getCurrentStory);
+  console.log('Current Story', currentStory);
 
   const {
     startMoving,
     stopMoving,
     pedometerIsAvailable,
-    adjustedCount,
+    stepCount,
     countRemainder,
   } = useDanceSession(targetBodyMoves);
 
   React.useEffect(() => {
     setGameStatus('started');
-    startTimer();
     // console.log('Pedometer', pedometerIsAvailable);
   }, []);
 
@@ -100,23 +100,23 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   /** Did user finish body moves in time? */
 
   React.useEffect(() => {
-    console.log('Adjusted Body Movement', adjustedCount);
-    if (adjustedCount === targetBodyMoves) {
+    console.log('Adjusted Body Movement', stepCount);
+    if (stepCount === targetBodyMoves) {
       console.log('Done!');
       return setGameStatus('completed');
     }
-  }, [adjustedCount]);
+  }, [stepCount]);
 
   /** Did user run out of time before finishing body moves? */
 
   React.useEffect(() => {
-    if (timeDanced <= 0) {
+    if (count === 0) {
       console.log('The time is done!');
       return setGameStatus('completed');
     }
-  }, [timeDanced]);
+  }, [count]);
 
-  const _getGameFinishType = () => {
+  const _getGameFinishType = (): {status: GameFinishType} => {
     let status: GameFinishType;
     if ('story_completed') {
       status = 'story_completed';
@@ -127,6 +127,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     } else {
       status = 'success';
     }
+    status = 'success';
 
     return {status};
   };
@@ -150,11 +151,26 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   };
   const handleGameCompleted = () => {
     stopMoving();
+    stopTimer();
     const {status} = _getGameFinishType();
-    if (status) {
-      return handleSaveGame('moves_finished');
-    } else {
-      return handleSaveGame('user_quit');
+    switch (status) {
+      case 'success':
+        handleSaveGame('moves_finished');
+        navigation.navigate('ResultsScreen', {
+          type: 'success',
+          targetTimeInMillis,
+          timeDancedInMillis: 0,
+          targetBodyMoves,
+          bodyMoves: 0,
+          videoUrl: currentStory?.successVideo || '',
+        });
+        break;
+      case 'failed':
+        return handleSaveGame('time_finished');
+      case 'interrupted':
+        return handleSaveGame('user_quit');
+      default:
+        return null;
     }
   };
 
@@ -165,13 +181,26 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
 
   const handleQuitDance = async () => {
     await videoBackgroundRef.current?.unmountVideo();
-    // save progress so far here
-    // Then Dispatch save game
+    // save progress so far here by dispatching a save game
     // which means updating current chapter and current story
     navigation.navigate('StoryScreen', {contentStoryId});
   };
 
-  const handleSaveGame = async (type: GameSaveType) => {};
+  const handleSaveGame = async (type: GameSaveType) => {
+    switch (type) {
+      case 'moves_finished':
+        // do something
+        break;
+      case 'time_finished':
+        // do something
+        break;
+      case 'user_quit':
+        // do something
+        break;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -210,7 +239,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
                   <BaseFont
                     variant="number-big-bold"
                     color={theme.COLORS.yellow}>
-                    {adjustedCount}
+                    {stepCount}
                   </BaseFont>
                 </DanceStatsContainer>
                 <DanceStatsContainer>

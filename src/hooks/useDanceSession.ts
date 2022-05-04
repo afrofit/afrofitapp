@@ -43,10 +43,10 @@ const useDanceSession = (stepTarget: number) => {
     startMoving,
     stopMoving,
     stepsFinished,
-    adjustedCount,
+    stepCount: adjustedCount,
     pedometerIsAvailable,
     countRemainder,
-    stepCount,
+    realCount: stepCount,
     setAdjustedCount,
   };
 };

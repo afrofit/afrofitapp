@@ -14,4 +14,5 @@ export type ChapterType = {
   targetBodyMoves: number;
   targetTimeInMillis: number;
   videoUrl: string;
+  isRestarted?: boolean;
 };

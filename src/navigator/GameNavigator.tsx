@@ -15,6 +15,7 @@ import {ChapterScreen} from '../screens/dance/ChapterScreen';
 import {DanceScreen} from '../screens/dance/DanceScreen';
 import {StoryFinishedScreen} from '../screens/dance/StoryFinishedScreen';
 import {DanceResultsScreen} from '../screens/dance/DanceResultsScreen';
+import {ResultsScreenType, StoryFinishScreenType} from '../screens/dance/types';
 
 export type GameStackParamList = {
   GameRoot: undefined;
@@ -22,8 +23,8 @@ export type GameStackParamList = {
   StoryIntroScreen: StorySummaryModel;
   ChapterScreen: ChapterType;
   DanceScreen: ChapterType;
-  ResultsScreen: undefined;
-  StoryFinish: undefined;
+  ResultsScreen: ResultsScreenType;
+  StoryFinish: StoryFinishScreenType;
 };
 
 export type GameScreensStackParamList = {
