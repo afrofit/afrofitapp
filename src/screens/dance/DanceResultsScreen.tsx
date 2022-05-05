@@ -23,7 +23,7 @@ import {ChapterType} from '../../models/Chapter';
 type UserProgressionType = 'restart' | 'continue';
 
 type ParamsType = {
-  params: {[key in keyof ResultsScreenType]: string | boolean | number};
+  params: ResultsScreenType;
 };
 
 interface Props {
@@ -31,7 +31,6 @@ interface Props {
 }
 export const DanceResultsScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation<GameNavigationType>();
-  // console.log(route.params);
 
   const currentChapter = useSelector(getCurrentStoryChapter);
 
@@ -76,14 +75,6 @@ export const DanceResultsScreen: React.FC<Props> = ({route}) => {
     return currentChapter
       ? navigation.navigate('ChapterScreen', {...currentChapter})
       : null;
-    // return navigation.navigate('StoryIntroScreen', {
-    //   contentStoryId,
-    //   introVideo,
-    //   completed,
-    //   started,
-    //   instruction,
-    //   title,
-    // });
   };
 
   const PROGRESSION_TYPE = type === 'success' ? 'continue' : 'restart';

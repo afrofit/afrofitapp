@@ -2,9 +2,7 @@ import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {BaseFont} from '../../components/Font/BaseFont';
-import {Page} from '../../components/Page/Page';
 import {GameNavigationType} from '../../types/navigation-types';
-import {ResultsScreenType, StoryFinishScreenType} from './types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import VideoBackground from '../../components/Video/VideoBackground';
 import {
@@ -18,10 +16,15 @@ import Spacer from '../../components/Library/Spacer';
 import {BaseButton} from '../../components/Buttons/BaseButton';
 import {millisecondsToMinutes} from 'date-fns/esm';
 
-type UserProgressionType = 'restart' | 'continue';
+type RouteProps = {
+  totalTargetUserTimeInMillis: number;
+  storySuccessText: string;
+  totalTargetBodyMoves: number;
+  successVideo: string;
+};
 
 type ParamsType = {
-  params: {[key in keyof StoryFinishScreenType]: string | boolean | number};
+  params: RouteProps;
 };
 
 interface Props {
@@ -29,7 +32,6 @@ interface Props {
 }
 export const StoryFinishedScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation<GameNavigationType>();
-  // console.log(route.params);
 
   const {
     totalTargetUserTimeInMillis,
@@ -37,8 +39,6 @@ export const StoryFinishedScreen: React.FC<Props> = ({route}) => {
     totalTargetBodyMoves,
     successVideo,
   } = route.params;
-
-  console.log(route.params);
 
   const videoBackgroundRef = React.useRef<any>(null);
 

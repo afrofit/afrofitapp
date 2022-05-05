@@ -24,6 +24,15 @@ export type ResultsScreenType = {
   failVideo?: string;
 };
 
+type RouteParamsType = {
+  bodyMoves: number;
+  targetBodyMoves: number;
+  targetTimeInMillis: number;
+  timeDancedInMillis: number;
+  type: 'success' | 'fail';
+  videoUrl: string;
+};
+
 export type StoryFinishScreenType = {
   totalTargetUserTimeInMillis: number;
   storySuccessText: string;
