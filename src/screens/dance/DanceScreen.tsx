@@ -26,6 +26,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getCurrentStory,
+  getCurrentStoryChapter,
   getCurrentStoryChapters,
 } from '../../features/game/slices/content.slice';
 import useDanceSession from '../../hooks/useDanceSession';
@@ -37,6 +38,7 @@ import {
   GameSaveType,
 } from './types';
 import {screenTitle} from './generators';
+import {saveUserDailyActivity} from '../../features/game/thunks/save-user-daily-activity-thunk';
 
 interface Props {
   route: ParamsType;
@@ -72,6 +74,7 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
     });
 
   const currentStory = useSelector(getCurrentStory);
+  const currentChapter = useSelector(getCurrentStoryChapter);
   const currentChapters = useSelector(getCurrentStoryChapters);
 
   const {
@@ -220,15 +223,49 @@ export const DanceScreen: React.FC<Props> = ({route}) => {
   };
 
   const handleSaveGame = async (type: GameSaveType) => {
+    if (!currentChapter) return 'Sorry, an unknown error occurred'!;
+
+    const {contentStoryId, contentChapterId, chapterOrder} = currentChapter;
+    const storyCompleted = false;
+    const chapterCompleted = false;
+
+    const gamePlayData = {
+      bodyMoves: 17,
+      timeDancedSession: 18,
+      caloriesBurned: 19,
+      contentStoryId,
+      contentChapterId,
+      storyStarted: true,
+      storyCompleted,
+      chapterStarted: true,
+      chapterCompleted,
+      chapterOrderNumber: chapterOrder,
+    };
+    /**GENERAL SAVE WORKFLOW
+     * Save to Chapter
+     * Save to Story
+     * Update in redux stores first
+     * Then update in db
+     * then redirect as needed
+     */
     switch (type) {
       case 'moves_finished':
-        // do something
+        // dispatch(storeUserContentActivityData)
+        dispatch(
+          saveUserDailyActivity({
+            caloriesBurned: gamePlayData.caloriesBurned,
+            bodyMoves: gamePlayData.bodyMoves,
+          }),
+        );
+
+        console.log('Game Saved!');
+        // do something because user has finished moves in time
         break;
       case 'time_finished':
-        // do something
+        // do something because user ran out of time
         break;
       case 'user_quit':
-        // do something
+        // do something because user is quitting before time runs out and moves are finished
         break;
       default:
         return null;

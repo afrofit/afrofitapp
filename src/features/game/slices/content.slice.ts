@@ -40,6 +40,7 @@ const contentSlice = createSlice({
       const {payload} = action;
       state.currentStory = {...state.currentStory, ...payload};
     },
+
     updateCurrentChapters(state, action: PayloadAction<ChapterType>) {
       const {payload} = action;
       if (payload) {

@@ -9,52 +9,13 @@ import {
   finishedRequest,
   showGenericErrorDialog,
 } from '../../ui/ui.slice';
-import {
-  setUserDailyActivity,
-  resetUserDailyActivity,
-} from '../slices/activity.slice';
+import {resetUserDailyActivity} from '../slices/activity.slice';
 import {setCurrentChapters, setCurrentStory} from '../slices/content.slice';
-import {DailyActivityType} from '../types/activity.types';
 
-// export function storyChaptersFetch(storyId) {
-//   return dispatch => {
-//     dispatch(newRequest());
-//     dispatch(hideGenericErrorDialog());
-//     getStoryDetails(storyId)
-//       .then(response => {
-//         dispatch(finishedRequest());
-//         return response;
-//       })
-//       .then(response => {
-//         const {data, ok} = response;
-//         dispatch(finishedRequest());
-//         if (data && ok) {
-//           const {data} = response;
-
-//           const {chapters} = data;
-
-//           const sortedChapters = chapters.sort((a, b) =>
-//             a.chapterOrder < b.chapterOrder
-//               ? -1
-//               : Number(a.chapterOrder > b.chapterOrder),
-//           );
-
-//           return dispatch(setCurrentChapters(sortedChapters));
-//         } else if (!ok && data) {
-//           throw new Error(data);
-//         } else {
-//           dispatch(showGenericErrorDialog("Can't fetch data. Retry?"));
-//           throw new Error('Error. Cannot fetch data.');
-//         }
-//       })
-//       .catch(error => {
-//         dispatch(showGenericErrorDialog(error.message));
-//         console.error(error);
-//       });
-//   };
-// }
-
-type StoryChapterExpandedType = {chapters: ChapterType[]; story: StoryType};
+export type StoryChapterExpandedType = {
+  chapters: ChapterType[];
+  story: StoryType;
+};
 
 const fetchStoryDetailsApi = (storyId: string) =>
   API_CLIENT.get(`/content/get-story-detail/${storyId}`);
